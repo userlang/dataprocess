@@ -14,7 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 public class MqMessage implements RocketMQListener<String> {
     private final static Logger logger = LoggerFactory.getLogger(MqMessage.class);
 
-    CoreExecuteFactory executeFactory= CoreExecuteFactory.getInstance();
+   private CoreExecuteFactory executeFactory= CoreExecuteFactory.getInstance();
 
     @Override
     public void onMessage(String message) {
