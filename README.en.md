@@ -25,17 +25,20 @@
  
 **#### Software Architecture**
  
+    com.dataprocess.core  ### 核心包 如果不是对项目结构，架构层面修改的代码  不建议修改该包下的代码
+
     com.dataprocess.core.common ### 核心工具类
 
     com.dataprocess.core.factory ### 核心工厂
 
     com.dataprocess.core.handler ### 核心处理模板
 
-    com.dataprocess.databases. ### 你链接的数据库名字.表名
 
-    com.dataprocess.databases.godnan.p_log ###
+    com.dataprocess.databases ### 数据处理包 是专门为使用者提供的
 
-    com.dataprocess.databases.godnan.u_user_tracking ###
+    com.dataprocess.databases.*.* ### 该包下的第一个*包是数据库名称 第二个*包是数据表名称，使用者应 按照规范在当前表名包下创建过滤器类进行后续业务操作
+
+    com.dataprocess.databases.godnan.u_user_tracking ### demo案例 godnan包是MySql中godnan库，u_user_tracking包是godnan库下的u_user_tracking表 
 
     com.dataprocess.es.api ###
 
