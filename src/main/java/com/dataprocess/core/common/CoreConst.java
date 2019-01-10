@@ -17,5 +17,5 @@ public interface CoreConst {
     //////////////////////////////////////////////////////////
 
     ///////////////数据库处理逻辑执行 包前缀
-    public static final String ExecutePackagePreFix="com.dataprocess.databases.";
+    public static final String EXECUTE_PACKAGE_PREFIX="com.dataprocess.databases.";
 }

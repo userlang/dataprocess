@@ -2,14 +2,11 @@ package com.dataprocess.core.handler;
 
 public abstract class CoreHandler {
 
-   protected CoreHandler successor;
-
+    protected CoreHandler successor;
 
     public void setSuccessor(CoreHandler successor) {
      this.successor = successor;
     }
-
-
 
 
     // * 库下的 * 表插入的逻辑
