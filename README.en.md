@@ -19,17 +19,30 @@ dataprocess角色：
     提供了 添加/修改/删除 等接口方法，使用者只需要 专注去做自己想要做的添加功能 删除功能  修改功能 就可以了
 
  
-**#### Software Architecture** 
-    com.dataprocess.core.common
-    com.dataprocess.core.factory
-    com.dataprocess.core.handler
-    com.dataprocess.databases.你链接的数据库名字.表名
-    com.dataprocess.databases.godnan.p_log
-    com.dataprocess.databases.godnan.u_user_tracking
-    com.dataprocess.es.api
-    com.dataprocess.es.dao
-    com.dataprocess.es.entity
-    com.dataprocess.mq
+**#### Software Architecture**
+ 
+    com.dataprocess.core.common ### 核心工具类
+
+    com.dataprocess.core.factory ### 核心工厂
+
+    com.dataprocess.core.handler ### 核心处理模板
+
+    com.dataprocess.databases. ### 你链接的数据库名字.表名
+
+    com.dataprocess.databases.godnan.p_log ###
+
+    com.dataprocess.databases.godnan.u_user_tracking ###
+
+    com.dataprocess.es.api ###
+
+    com.dataprocess.es.dao ###
+
+    com.dataprocess.es.entity ###
+
+    com.dataprocess.mq ###
+
+    com.dataprocess.common ###
+
 **#### Installation** 
 
 1.  xxxx
