@@ -7,7 +7,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 
 import java.util.Date;
 
-// es 创建索引 put http://localhost:9200/<index>/<type>/[<id>]
+
 @Document(indexName = DocIndex.USERTRACKING)
 public class UserTrackingEntity {
 
