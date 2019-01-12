@@ -47,7 +47,7 @@
 
     com.dataprocess.es.entity ### es 涉及到实体 也叫文档
 
-    com.dataprocess.mq ### 监听消息
+    com.dataprocess.mq ### 监听rocketmq推送的消息
 
     com.dataprocess.common ###  业务工具类 使用者可在该包下创建工具类
 
@@ -58,7 +58,7 @@
 4.  下载RocketMQ到本地并且解压 启动nasespace 启动broker要确保dataprocess监听的Topic存在
 5.  下载Redis到本地并且安装 
 6.  下载dataprocess也就是当前项目到本地，并且找到SpringBoot的运行类 点击运行，要确保ES
-7.
+
 **#### Instructions** 
 
 1.  xxxx
