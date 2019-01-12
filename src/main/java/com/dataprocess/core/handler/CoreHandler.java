@@ -2,12 +2,17 @@ package com.dataprocess.core.handler;
 
 public abstract class CoreHandler {
 
-    protected CoreHandler successor;
+    private CoreHandler successor;
 
     public void setSuccessor(CoreHandler successor) {
      this.successor = successor;
     }
-
+    protected CoreHandler getNext(){
+        if(null==successor){
+            throw new RuntimeException(" getNext  There are no more executable filters  ");
+        }
+        return successor;
+    }
 
     // * 库下的 * 表插入的逻辑
     public abstract Object insert(Object obj);

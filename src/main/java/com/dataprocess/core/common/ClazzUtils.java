@@ -1,11 +1,7 @@
 package com.dataprocess.core.common;
 
-import com.dataprocess.core.handler.CoreHandler;
-import io.netty.util.internal.StringUtil;
-
 import java.io.File;
 import java.io.FileFilter;
-import java.io.IOException;
 import java.net.URL;
 import java.util.*;
 
@@ -83,7 +79,7 @@ public class ClazzUtils {
 
             for (String clas: param ) {
                 //result.add( loadClass(clas));
-                result.add( SpringUtils.getBean(Stringutils.lowerFirst(clas)));
+                result.add( SpringUtils.getBean(StringUtils.lowerFirst(clas)));
             }
         }
         return result;

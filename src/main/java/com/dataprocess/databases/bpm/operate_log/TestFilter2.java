@@ -1,15 +1,14 @@
-package com.dataprocess.databases.bpm.login_info;
+package com.dataprocess.databases.bpm.operate_log;
 
 import com.dataprocess.core.handler.CoreHandler;
 import org.springframework.stereotype.Component;
 
 @Component
-public class TestFilter1 extends CoreHandler {
+public class TestFilter2 extends CoreHandler {
     @Override
     public Object insert(Object obj) {
-        System.out.println("正在执行 login_info下的test1  开始");
-        successor.insert("我是 test1 参数");
-        System.out.println("正在执行 login_info下的test1  结束");
+
+        System.out.println("正在执行 operate_log表的 test2 添加操作 开始");
         return null;
     }
 
