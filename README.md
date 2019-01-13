@@ -67,11 +67,12 @@
  ![](image/jiagou.png)
 **系统安装依赖** 
 1.  相关的资源地址:
-2.  准备环境 必备条件本地应安装好 jdk1.8  并且配置好环境变量
-3.  下载ElasticSearch并且安装 https://www.cnblogs.com/langjunnan/articles/15798379.html
-4.  下载Canal到本地并且解压，并且 配置好数据库连接 登录名 密码 等
-5.  下载RocketMQ到本地并且解压 启动nasespace 启动broker要确保dataprocess监听的Topic存在
-6.  下载Redis到本地并且安装 
+2.  准备环境 必备条件本地应安装好jdk1.8 并且配置好环境变量
+3.  以下安装链接是我个人博客园提供，描述比较简单，不保证您也能这么畅通，相信你也能遇到问题解决问题
+3.  下载ElasticSearch并配置 https://www.cnblogs.com/langjunnan/articles/15798379.html
+4.  下载Canal到本地并配置 https://www.cnblogs.com/langjunnan/articles/15798583.html
+5.  下载RocketMQ并配置 https://www.cnblogs.com/langjunnan/articles/15798518.html
+6.  下载Redis并启动 https://www.cnblogs.com/langjunnan/articles/15798670.html
 7.  下载dataprocess也就是当前项目到本地，并且找到SpringBoot的运行类 点击运行，
 
 **使用说明说** 
