@@ -66,7 +66,7 @@
 
  ![](image/jiagou.png)
 **系统安装依赖** 
-1.  相关的资源地址:
+1.  相关的资源地址: 链接：https://pan.baidu.com/s/18V38e4h9_BncyqYu1yp2BA   提取码：1234
 2.  准备环境 必备条件本地应安装好jdk1.8 并且配置好环境变量
 3.  以下安装链接是我个人博客园提供，描述比较简单，不保证您也能这么畅通，相信你也能遇到问题解决问题
 3.  下载ElasticSearch并配置 https://www.cnblogs.com/langjunnan/articles/15798379.html
