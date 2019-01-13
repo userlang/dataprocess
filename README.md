@@ -68,7 +68,7 @@
 **系统安装依赖** 
 1.  相关的资源地址:
 2.  准备环境 必备条件本地应安装好 jdk1.8  并且配置好环境变量
-3.  下载ElasticSearch到本地并且解压，
+3.  下载ElasticSearch并且安装 https://www.cnblogs.com/langjunnan/articles/15798379.html
 4.  下载Canal到本地并且解压，并且 配置好数据库连接 登录名 密码 等
 5.  下载RocketMQ到本地并且解压 启动nasespace 启动broker要确保dataprocess监听的Topic存在
 6.  下载Redis到本地并且安装 
