@@ -54,7 +54,7 @@ public class EsService extends CoreHandler {
                 entitys.add(entity);
             }
             loginInfoDao.saveAll(entitys);
-
+            getNext().update("111");
             return true;
         }
         return false;
