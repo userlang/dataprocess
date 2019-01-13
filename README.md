@@ -29,6 +29,8 @@
 
  
 **系统结构**
+    
+    com.dataprocess.common ###  业务工具类 使用者可在该包下创建工具类
  
     com.dataprocess.core  ### 核心包 如果不是对项目结构，架构层面修改的代码  不建议修改该包下的代码
 
@@ -55,12 +57,10 @@
     
     com.dataprocess.es.index  ### es 文档索引
     
-    com.dataprocess.mq ### 监听rocketmq推送的消息
-
     com.dataprocess.init ###初始化 es索引
 
-    com.dataprocess.common ###  业务工具类 使用者可在该包下创建工具类
-    
+    com.dataprocess.mq ### 监听rocketmq推送的消息
+
     com.dataprocess.redis  ###redis 配置相关信息
 **系统架构图** 
 
