@@ -2,10 +2,13 @@ package com.dataprocess.redis;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
 import javax.annotation.Resource;
 
+import org.springframework.data.redis.core.HashOperations;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
@@ -138,4 +141,21 @@ public class RedisUtil {
 		return Integer.valueOf(redisTemplate.boundValueOps("active").get(0, -1));
 
 	}
+
+
+	public boolean hashPut(Object key,Object hashKey,Object value){
+		HashOperations hash= redisTemplate.opsForHash();
+		hash.put(key,hashKey,value);
+		return true;
+	}
+	public boolean hashPutAll(Object key, Map<Object,Object> value){
+		HashOperations hash= redisTemplate.opsForHash();
+		hash.putAll(key,value);
+		return true;
+	}
+	public List<Map<Object,Object>> hashGetValue(Object key){
+		HashOperations hash= redisTemplate.opsForHash();
+		return  hash.values(key);
+	}
+
 }

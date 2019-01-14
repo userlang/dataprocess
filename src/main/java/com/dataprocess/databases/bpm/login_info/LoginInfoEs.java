@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class EsService extends CoreHandler {
+public class LoginInfoEs extends CoreHandler {
 
     @Resource
     private LoginInfoDao loginInfoDao;
