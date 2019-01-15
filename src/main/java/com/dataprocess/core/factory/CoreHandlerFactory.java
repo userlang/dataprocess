@@ -6,6 +6,7 @@ import com.dataprocess.core.handler.CoreHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class CoreHandlerFactory {
@@ -44,20 +45,25 @@ public class CoreHandlerFactory {
      * @throws NoSuchMethodException
      */
     public CoreHandler createCoreHandler(String dataBase, String table) throws ClassNotFoundException, NoSuchMethodException {
-
-        List<Object> list= ClazzUtils.getCalsss(
+        List<CoreHandler> coreHandlers;
+        List<Object> objectList= ClazzUtils.getCalsss(
                 CoreConst.EXECUTE_PACKAGE_PREFIX+dataBase+"."+table);
-        if(null==list||list.size()<=0){
+        if(null==objectList||objectList.size()<=0){
             return null;
-
         }
-        for (int i=0;i<list.size()-1;i++)
+        coreHandlers=new ArrayList<>();
+        for (int x=0;x<objectList.size();x++){
+            if(objectList.get(x) instanceof  CoreHandler){
+                coreHandlers.add((CoreHandler)objectList.get(x));
+            }
+        }
+        for (int i=0;i<coreHandlers.size()-1;i++)
         {
             int j=i+1;
-            ((CoreHandler)list.get(i)).setSuccessor((CoreHandler)list.get(j));
+            coreHandlers.get(i).setSuccessor(coreHandlers.get(j));
 
         }
-        return (CoreHandler) list.get(0);
+        return coreHandlers.get(0);
     }
 
 
