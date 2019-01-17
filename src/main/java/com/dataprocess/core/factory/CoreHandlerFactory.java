@@ -48,22 +48,25 @@ public class CoreHandlerFactory {
         List<CoreHandler> coreHandlers;
         List<Object> objectList= ClazzUtils.getCalsss(
                 CoreConst.EXECUTE_PACKAGE_PREFIX+dataBase+"."+table);
-        if(null==objectList||objectList.size()<=0){
-            return null;
-        }
-        coreHandlers=new ArrayList<>();
-        for (int x=0;x<objectList.size();x++){
-            if(objectList.get(x) instanceof  CoreHandler){
-                coreHandlers.add((CoreHandler)objectList.get(x));
+        if(null!=objectList&&objectList.size()>=0){
+            coreHandlers=new ArrayList<>();
+            for (int x=0;x<objectList.size();x++){
+                if(objectList.get(x) instanceof  CoreHandler){
+                    coreHandlers.add((CoreHandler)objectList.get(x));
+                }
+            }
+            if(null!=coreHandlers&&coreHandlers.size()>=0){
+                for (int i=0;i<coreHandlers.size()-1;i++)
+                {
+                    int j=i+1;
+                    coreHandlers.get(i).setSuccessor(coreHandlers.get(j));
+
+                }
+                return coreHandlers.get(0);
             }
         }
-        for (int i=0;i<coreHandlers.size()-1;i++)
-        {
-            int j=i+1;
-            coreHandlers.get(i).setSuccessor(coreHandlers.get(j));
+        return null;
 
-        }
-        return coreHandlers.get(0);
     }
 
 
