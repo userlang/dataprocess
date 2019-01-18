@@ -177,6 +177,8 @@
     <orderEntry type="library" name="Maven: org.apache.tomcat.embed:tomcat-embed-websocket:9.0.56" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-web:5.3.14" level="project" />
     <orderEntry type="library" name="Maven: org.springframework:spring-webmvc:5.3.14" level="project" />
+    <orderEntry type="library" name="Maven: cglib:cglib:2.2.2" level="project" />
+    <orderEntry type="library" name="Maven: asm:asm:3.3.1" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-starter-test:2.6.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-test:2.6.2" level="project" />
     <orderEntry type="library" scope="TEST" name="Maven: org.springframework.boot:spring-boot-test-autoconfigure:2.6.2" level="project" />

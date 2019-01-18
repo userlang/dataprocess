@@ -14,7 +14,6 @@ public class DataProcessApplication {
 
 			 SpringApplication.run(DataProcessApplication.class, args);
 
-
 	}
 
 }
