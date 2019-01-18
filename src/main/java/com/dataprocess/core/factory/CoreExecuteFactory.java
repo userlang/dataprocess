@@ -100,7 +100,7 @@ public  class CoreExecuteFactory {
      */
     public static boolean execute( String database,String table, String type,Object data) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         try{
-            CoreTemplate coreHandler=coreHandlerFactory.createCoreHandler(database,table);
+            CoreTemplate coreHandler=coreHandlerFactory.createCoreTemplate(database,table);
             if(null==coreHandler){
                 // logger.info(" No implementation class found for "+database+"."+table);
                 return true;

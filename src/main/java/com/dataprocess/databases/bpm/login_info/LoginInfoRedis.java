@@ -13,6 +13,9 @@ public class LoginInfoRedis extends CoreTemplate {
 
     @Resource
     RedisUtil redisUtil;
+
+
+
     @Override
     public Object insert(Object obj) {
         List<Map<Object,Object>> list=(List<Map<Object,Object>>)obj;
@@ -29,7 +32,9 @@ public class LoginInfoRedis extends CoreTemplate {
 
     @Override
     public Object update(Object obj) {
-        redisUtil.set("1","test1");
+
+
+
         System.out.println("正在执行redis修改");
         return null;
     }
@@ -37,5 +42,28 @@ public class LoginInfoRedis extends CoreTemplate {
     @Override
     public Object delete(Object obj) {
         return null;
+    }
+
+    @Override
+    public void insertRollBack(Object obj) {
+        System.out.println("执行异常回滚");
+    }
+
+    @Override
+    public void updateRollBack(Object obj) {
+        System.out.println("执行updateRollBack异常回滚");
+    }
+
+    @Override
+    public void deleteRollBack(Object obj) {
+
+    }
+
+    public RedisUtil getRedisUtil() {
+        return redisUtil;
+    }
+
+    public void setRedisUtil(RedisUtil redisUtil) {
+        this.redisUtil = redisUtil;
     }
 }

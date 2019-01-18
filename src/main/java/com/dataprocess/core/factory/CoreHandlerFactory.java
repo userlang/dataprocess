@@ -2,9 +2,14 @@ package com.dataprocess.core.factory;
 
 import com.dataprocess.core.common.ClazzUtils;
 import com.dataprocess.core.common.CoreConst;
+import com.dataprocess.core.handler.CoreHandler;
+import com.dataprocess.core.interceptor.HandlerInterceptor;
+import com.dataprocess.core.interceptor.RollBackInterceptor;
 import com.dataprocess.core.template.CoreTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
+import org.springframework.cglib.proxy.Enhancer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,7 +20,6 @@ public class CoreHandlerFactory {
     private CoreHandlerFactory(){}
 
     private static volatile CoreHandlerFactory instance;
-
 
 
     /**
@@ -44,7 +48,7 @@ public class CoreHandlerFactory {
      * @throws ClassNotFoundException
      * @throws NoSuchMethodException
      */
-    public CoreTemplate createCoreHandler(String dataBase, String table) throws ClassNotFoundException, NoSuchMethodException {
+    public CoreTemplate createCoreTemplate(String dataBase, String table) throws ClassNotFoundException, NoSuchMethodException {
         List<CoreTemplate> coreHandlers;
         List<Object> objectList= ClazzUtils.getCalsss(
                 CoreConst.EXECUTE_PACKAGE_PREFIX+dataBase+"."+table);
@@ -52,7 +56,9 @@ public class CoreHandlerFactory {
             coreHandlers=new ArrayList<>();
             for (int x=0;x<objectList.size();x++){
                 if(objectList.get(x) instanceof  CoreTemplate){
-                    coreHandlers.add((CoreTemplate)objectList.get(x));
+                    CoreTemplate proxy=(CoreTemplate) createProxyCoreHandler(objectList.get(x),new RollBackInterceptor());
+                    BeanUtils.copyProperties(objectList.get(x), proxy);
+                    coreHandlers.add(proxy);
                 }
             }
             if(null!=coreHandlers&&coreHandlers.size()>0){
@@ -69,5 +75,12 @@ public class CoreHandlerFactory {
 
     }
 
+    public Object createProxyCoreHandler(Object object, HandlerInterceptor interceptor){
+        Enhancer enhancer = new Enhancer();
+        enhancer.setSuperclass(object.getClass());
+        enhancer.setCallback(new CoreHandler(interceptor));
+       return enhancer.create();
+
+    }
 
 }
