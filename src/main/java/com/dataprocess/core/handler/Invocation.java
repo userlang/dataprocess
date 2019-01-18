@@ -54,9 +54,30 @@ public class Invocation {
     }
 
     public Object invoke() throws Throwable {
-      return   methodProxy.invokeSuper(target,args);
+
+        try{
+          return  methodProxy.invokeSuper(target,args);
+        }catch (Exception e){
+            String methodName=this.method.getName()+ROLLBACK;
+            Method rollBackMethod= null;
+            try {
+                rollBackMethod = this.target.getClass().getMethod(methodName,Object.class);
+            } catch (NoSuchMethodException e1) {
+                e1.printStackTrace();
+            }
+            if(null!=rollBackMethod){
+               this.method=rollBackMethod;
+                try {
+                    method.invoke(target,args);
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+            }
+        }
+        return null;
     }
-    public void rollback() throws InvocationTargetException, IllegalAccessException {
-        method.invoke(target,args);
-    }
+
+
+    private static final String ROLLBACK="RollBack";
+
 }

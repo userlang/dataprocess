@@ -36,6 +36,7 @@ public class LoginInfoRedis extends CoreTemplate {
 
 
         System.out.println("正在执行redis修改");
+        int i=20/0;
         return null;
     }
 

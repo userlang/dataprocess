@@ -3,8 +3,6 @@ package com.dataprocess.core.factory;
 import com.dataprocess.core.common.ClazzUtils;
 import com.dataprocess.core.common.CoreConst;
 import com.dataprocess.core.handler.CoreHandler;
-import com.dataprocess.core.interceptor.HandlerInterceptor;
-import com.dataprocess.core.interceptor.RollBackInterceptor;
 import com.dataprocess.core.template.CoreTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,7 +54,7 @@ public class CoreHandlerFactory {
             coreHandlers=new ArrayList<>();
             for (int x=0;x<objectList.size();x++){
                 if(objectList.get(x) instanceof  CoreTemplate){
-                    CoreTemplate proxy=(CoreTemplate) createProxyCoreHandler(objectList.get(x),new RollBackInterceptor());
+                    CoreTemplate proxy=(CoreTemplate) createProxyCoreHandler(objectList.get(x));
                     BeanUtils.copyProperties(objectList.get(x), proxy);
                     coreHandlers.add(proxy);
                 }
@@ -75,10 +73,10 @@ public class CoreHandlerFactory {
 
     }
 
-    public Object createProxyCoreHandler(Object object, HandlerInterceptor interceptor){
+    public Object createProxyCoreHandler(Object object){
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(object.getClass());
-        enhancer.setCallback(new CoreHandler(interceptor));
+        enhancer.setCallback(new CoreHandler());
        return enhancer.create();
 
     }
