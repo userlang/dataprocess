@@ -3,7 +3,7 @@ package com.dataprocess.mq;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.dataprocess.core.common.CoreConst;
-import com.dataprocess.core.adapter.Data;
+import com.dataprocess.core.adapter.CoreData;
 import com.dataprocess.core.factory.CoreStrategyFactory;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
@@ -44,9 +44,9 @@ public class MqConsumer implements RocketMQListener<String> {
     }
 
 
-    public Data toData(String message) {
+    public CoreData toData(String message) {
         JSONObject object = JSON.parseObject(message);
-        Data data=new Data();
+        CoreData data=new CoreData();
         boolean isDDl = (boolean) object.get(CoreConst.ISDDLL);
         data.setIsDll(isDDl);
         data.setData(object.get(CoreConst.DATA));

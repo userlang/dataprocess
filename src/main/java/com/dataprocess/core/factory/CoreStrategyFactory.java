@@ -1,7 +1,7 @@
 package com.dataprocess.core.factory;
 
 import com.dataprocess.core.common.CoreConst;
-import com.dataprocess.core.adapter.Data;
+import com.dataprocess.core.adapter.CoreData;
 import com.dataprocess.core.template.CoreTemplate;
 import io.netty.util.internal.StringUtil;
 import org.slf4j.Logger;
@@ -27,7 +27,7 @@ public  class CoreStrategyFactory {
 
     /**
      * 解析处理器
-     * @param message
+     * @param data
      * @return
      * @throws ClassNotFoundException
      * @throws IllegalAccessException
@@ -35,7 +35,7 @@ public  class CoreStrategyFactory {
      * @throws NoSuchMethodException
      * @throws InvocationTargetException
      */
-    public static boolean analysis(Data data) throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+    public static boolean analysis(CoreData data) throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
 
         boolean isDDl= (boolean) data.getIsDll();
         if(!isDDl){
