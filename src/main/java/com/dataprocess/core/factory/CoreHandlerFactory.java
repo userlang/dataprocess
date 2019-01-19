@@ -11,7 +11,11 @@ import org.springframework.cglib.proxy.Enhancer;
 
 import java.util.ArrayList;
 import java.util.List;
-
+/**
+ * @Author junnan.lang
+ * @Date 2022/1/19 11:21
+ * @Version 1.0
+ */
 public class CoreHandlerFactory {
     private final static Logger logger = LoggerFactory.getLogger(CoreHandlerFactory.class);
 

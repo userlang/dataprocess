@@ -2,9 +2,13 @@ package com.dataprocess.core.handler;
 
 import org.springframework.cglib.proxy.MethodProxy;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-
+/**
+ * Resolve processing policy factory
+ * @Author junnan.lang
+ * @Date 2022/1/19 11:21
+ * @Version 1.0
+ */
 public class Invocation {
     private Object target;
 
