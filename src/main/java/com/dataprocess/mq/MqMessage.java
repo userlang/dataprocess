@@ -1,6 +1,6 @@
 package com.dataprocess.mq;
 
-import com.dataprocess.core.factory.CoreExecuteFactory;
+import com.dataprocess.core.factory.CoreStrategyFactory;
 import org.apache.rocketmq.spring.annotation.RocketMQMessageListener;
 import org.apache.rocketmq.spring.core.RocketMQListener;
 import org.slf4j.Logger;
@@ -14,7 +14,7 @@ import java.lang.reflect.InvocationTargetException;
 public class MqMessage implements RocketMQListener<String> {
     private final static Logger logger = LoggerFactory.getLogger(MqMessage.class);
 
-     private CoreExecuteFactory executeFactory= CoreExecuteFactory.getInstance();
+     private CoreStrategyFactory executeFactory= CoreStrategyFactory.getInstance();
 
     @Override
     public void onMessage(String message) {

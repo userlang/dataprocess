@@ -13,16 +13,21 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 
+
+
 /**
- * 处理Mq接收到的消息工厂
+
+ *Resolve processing policy factory
+
  */
-public  class CoreExecuteFactory {
-    private final static Logger logger = LoggerFactory.getLogger(CoreExecuteFactory.class);
+
+public  class CoreStrategyFactory {
+    private final static Logger logger = LoggerFactory.getLogger(CoreStrategyFactory.class);
 
 
-    private CoreExecuteFactory(){}
+    private CoreStrategyFactory(){}
 
-    private static volatile CoreExecuteFactory instance;
+    private static volatile CoreStrategyFactory instance;
 
 
     private  static Set<String> BLACKLIST=new HashSet<>();
@@ -34,15 +39,15 @@ public  class CoreExecuteFactory {
      *
      * @return
      */
-    public static CoreExecuteFactory getInstance() {
+    public static CoreStrategyFactory getInstance() {
 
         if (instance == null) {
 
-            synchronized (CoreExecuteFactory.class) {
+            synchronized (CoreStrategyFactory.class) {
 
                 if (instance == null) {
 
-                    instance = new CoreExecuteFactory();
+                    instance = new CoreStrategyFactory();
                 }
             }
         }
