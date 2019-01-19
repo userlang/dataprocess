@@ -18,8 +18,12 @@ public interface CoreConst {
     public static final String DATA="data";
     //数据库ddl
     public static final String ISDDLL="isDdl";
+
+    public static final  String QUERY="QUERY";
     //////////////////////////////////////////////////////////
 
     ///////////////数据库处理逻辑执行 包前缀
     public static final String EXECUTE_PACKAGE_PREFIX="com.dataprocess.databases.";
+
+
 }
