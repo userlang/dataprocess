@@ -18,46 +18,35 @@ public class LoginInfoRedis extends CoreTemplate {
 
     @Override
     public Object insert(Object obj) {
-        List<Map<Object,Object>> list=(List<Map<Object,Object>>)obj;
-        if(null!=list&&list.size()>0){
-
-            for (Map<Object,Object> item: list  ) {
-                redisUtil.hashPutAll("logininfo:"+item.get("id"),item);
-            }
-
-            return true;
-        }
-        return false;
+        System.out.println("正在执行 LoginInfoRedis添加");
+        return true;
     }
 
     @Override
     public Object update(Object obj) {
-
-
-
-        System.out.println("正在执行redis修改");
-        int i=20/0;
-        return null;
+        System.out.println("正在执行 LoginInfoRedis修改");
+        return true;
     }
 
     @Override
     public Object delete(Object obj) {
-        return null;
+        System.out.println("正在执行 LoginInfoRedis删除");
+        return true;
     }
 
     @Override
     public void insertRollBack(Object obj) {
-        System.out.println("执行异常回滚");
+        System.out.println("正在执行 LoginInfoRedis 添加异常");
     }
 
     @Override
     public void updateRollBack(Object obj) {
-        System.out.println("执行updateRollBack异常回滚");
+        System.out.println("正在执行 LoginInfoRedis 修改异常");
     }
 
     @Override
     public void deleteRollBack(Object obj) {
-
+        System.out.println("正在执行 LoginInfoRedis 删除异常");
     }
 
     public RedisUtil getRedisUtil() {

@@ -8,41 +8,43 @@ public class LoginInfoEs extends CoreTemplate {
 
     @Override
     public Object insert(Object obj) {
-        System.out.println("正在执行 es 得添加");
-        return null;
+        Object result=null;
+        System.out.println("正在执行LoginInfoEs 得添加 开始");
+        result=getNext().insert(obj);
+        System.out.println("正在执行LoginInfoEs 得添加 结束");
+        return result;
     }
 
     @Override
     public Object update(Object obj) {
-        System.out.println("正在执行 es 得修改 开始");
-
-       // CoreTemplate c= getNext();
-        //System.out.println(c);
-      //  c.update(obj);
-
-        getNext().update(obj);
-        System.out.println("正在执行 es 得修改 结束");
-        return null;
+        Object result=null;
+        System.out.println("正在执行LoginInfoEs 得修改 开始");
+        result=getNext().insert(obj);
+        System.out.println("正在执行LoginInfoEs 得修改 结束");
+        return result;
     }
 
     @Override
     public Object delete(Object obj) {
-        System.out.println("正在执行 es 得删除");
-        return null;
+        Object result=null;
+        System.out.println("正在执行LoginInfoEs 得删除 开始");
+        result=getNext().insert(obj);
+        System.out.println("正在执行LoginInfoEs 得删除 结束");
+        return result;
     }
 
     @Override
     public void insertRollBack(Object obj) {
-        System.out.println("正在执行 es 得添加  异常");
+        System.out.println("正在执行 正在执行LoginInfoEs 得添加  异常");
     }
 
     @Override
     public void updateRollBack(Object obj) {
-        System.out.println("正在执行 es 得修改  异常");
+        System.out.println("正在执行 正在执行LoginInfoEs 得修改  异常");
     }
 
     @Override
     public void deleteRollBack(Object obj) {
-        System.out.println("正在执行 es 得删除  异常");
+        System.out.println("正在执行 正在执行LoginInfoEs 得删除  异常");
     }
 }
