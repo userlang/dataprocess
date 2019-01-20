@@ -67,11 +67,11 @@
     com.dataprocess.mq ### 监听rocketmq推送的消息
 
     com.dataprocess.redis  ###redis 配置相关信息
-**系统架构图** 
+**系统架构图1** 
 
  ![](image/jiagou.png)
  
-**内部架构图** 
+**系统架构图2** 
 
  ![](image/yewujiagou.png)
  
