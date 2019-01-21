@@ -12,6 +12,7 @@ import org.springframework.cglib.proxy.Enhancer;
 import java.util.ArrayList;
 import java.util.List;
 /**
+*  Trusteeship plant
  * @Author junnan.lang
  * @Date 2022/1/19 11:21
  * @Version 1.0
@@ -21,14 +22,7 @@ public class CoreTrusteeshipFactory {
 
     private CoreTrusteeshipFactory(){}
 
-    /**
-     * 根据数据库和表创建核心工厂
-     * @param dataBase
-     * @param table
-     * @return
-     * @throws ClassNotFoundException
-     * @throws NoSuchMethodException
-     */
+
     public CoreTemplate createCoreTemplate(String dataBase, String table) throws ClassNotFoundException, NoSuchMethodException {
         List<CoreTemplate> coreHandlers;
         List<Object> objectList= ClazzUtils.getCalsss(

@@ -18,7 +18,7 @@ public interface CoreConst {
     public static final String DATA="data";
     //数据库ddl
     public static final String ISDDLL="isDdl";
-
+    //查询
     public static final  String QUERY="QUERY";
     //////////////////////////////////////////////////////////
 

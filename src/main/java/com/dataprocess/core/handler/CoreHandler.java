@@ -5,7 +5,7 @@ import org.springframework.cglib.proxy.MethodProxy;
 
 import java.lang.reflect.Method;
 /**
- * Resolve processing policy factory
+ *  Core  proxy invocation
  * @Author junnan.lang
  * @Date 2022/1/19 11:21
  * @Version 1.0
