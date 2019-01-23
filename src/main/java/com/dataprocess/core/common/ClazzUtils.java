@@ -1,5 +1,7 @@
 package com.dataprocess.core.common;
 
+import org.springframework.beans.factory.NoSuchBeanDefinitionException;
+
 import java.io.File;
 import java.io.FileFilter;
 import java.net.URL;
@@ -83,8 +85,15 @@ public class ClazzUtils {
         if(null!=param&&param.size()>0){
 
             for (String clas: param ) {
-                //result.add( loadClass(clas));
-                result.add( SpringUtils.getBean(StringUtils.lowerFirst(clas)));
+                try {
+                    Object obj=SpringUtils.getBean(StringUtils.lowerFirst(clas));
+                    if(null!=obj){
+                        result.add(obj);
+                    }
+                }catch (NoSuchBeanDefinitionException e){
+                        continue;
+                }
+
             }
         }
         return result;

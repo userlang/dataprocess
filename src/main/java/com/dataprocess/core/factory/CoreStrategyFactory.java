@@ -2,7 +2,9 @@ package com.dataprocess.core.factory;
 
 import com.dataprocess.core.common.CoreConst;
 import com.dataprocess.core.adapter.CoreData;
-import com.dataprocess.core.template.CoreTemplate;
+import com.dataprocess.core.handler.Invocation;
+import com.dataprocess.core.subject.CoreSubject;
+import com.dataprocess.core.template.ChainTemplate;
 import io.netty.util.internal.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -10,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import javax.el.MethodNotFoundException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.List;
 
 /**
  * Resolve processing policy factory
@@ -41,7 +44,7 @@ public  class CoreStrategyFactory {
                 throw  new NullPointerException(table);
             }
             Object dataObj=data.getData();
-            if(null==data){
+            if(null==dataObj){
                 throw  new NullPointerException("current execute data is  null");
             }
 
@@ -54,16 +57,25 @@ public  class CoreStrategyFactory {
 
     public static boolean execute( String database,String table, String type,Object data) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         try{
-            CoreTemplate coreHandler=coreHandlerFactory.createCoreTemplate(database,table);
-            if(null==coreHandler){
+            List<Object> tableListClass =coreHandlerFactory.createTableListClass(database,table);
+            if(null==tableListClass||(null!=tableListClass&&tableListClass.size()==0)){
                 // logger.info(" No implementation class found for "+database+"."+table);
                 return true;
             }
-            Method method  = coreHandler.getClass().getMethod(type.toLowerCase(),Object.class);
-            if(null==method){
-                throw new MethodNotFoundException("  The method of this "+coreHandler.getClass()+" cannot be found   ");
+            CoreSubject subjectHandler =coreHandlerFactory.createObserverTemplate(tableListClass);
+            ChainTemplate chainHandler= coreHandlerFactory.createChainTemplate(tableListClass);
+            if(null!=subjectHandler){
+                subjectHandler.notify(data,type);
             }
-            method.invoke(coreHandler,data);
+            if(null!=chainHandler){
+
+                Method method  = chainHandler.getClass().getMethod(type.toLowerCase(),Object.class);
+                if(null==method){
+                    throw new MethodNotFoundException("  The method of this "+chainHandler.getClass()+" cannot be found   ");
+                }
+                method.invoke(chainHandler,data);
+            }
+
             return true;
 
         }catch (Exception e){
