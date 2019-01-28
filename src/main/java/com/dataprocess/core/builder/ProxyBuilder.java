@@ -2,7 +2,10 @@ package com.dataprocess.core.builder;
 
 import com.dataprocess.core.common.ClazzUtils;
 import com.dataprocess.core.common.CoreConst;
+import com.dataprocess.core.common.SpringUtils;
 import com.dataprocess.core.handler.CoreHandler;
+import com.dataprocess.core.interceptor.ProxyAfter;
+import com.dataprocess.core.interceptor.ProxyBefore;
 import com.dataprocess.core.subject.CoreSubject;
 import com.dataprocess.core.subject.SubscribeSubject;
 import com.dataprocess.core.template.ChainTemplate;
@@ -10,8 +13,7 @@ import com.dataprocess.core.template.ObserverTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cglib.proxy.Enhancer;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class ProxyBuilder extends CoreBuilder {
 
@@ -49,18 +51,18 @@ public class ProxyBuilder extends CoreBuilder {
     public void buildChainTemplate() throws ClassNotFoundException, NoSuchMethodException {
         List<ChainTemplate> coreHandlers =new ArrayList<>();
         List<Object> objectList=createTableListClass();
-        if(null!=objectList&&objectList.size()>0){
-            for (int x=0;x<objectList.size();x++){
-                if(objectList.get(x) instanceof ChainTemplate){
-                   ChainTemplate proxy=(ChainTemplate) createProxyCoreHandler(objectList.get(x));
-                   BeanUtils.copyProperties(objectList.get(x), proxy);
-                    coreHandlers.add(proxy);
 
-                }
-            }
-             super.plan.setChainTemplate(assembleChain(coreHandlers));
-        }
+          if(null!=objectList&&objectList.size()>0){
+              for (int x=0;x<objectList.size();x++){
+                  if(objectList.get(x) instanceof ChainTemplate){
+                      ChainTemplate proxy=(ChainTemplate) createProxyCoreHandler(objectList.get(x));
+                      BeanUtils.copyProperties(objectList.get(x), proxy);
+                      coreHandlers.add(proxy);
 
+                  }
+              }
+              super.plan.setChainTemplate(assembleChain(coreHandlers));
+          }
     }
     /**
      * Assembly responsibility chain
@@ -88,10 +90,24 @@ public class ProxyBuilder extends CoreBuilder {
         return objectList;
     }
     private Object createProxyCoreHandler(Object object){
-        Enhancer enhancer = new Enhancer();
-        enhancer.setSuperclass(object.getClass());
-        enhancer.setCallback(new CoreHandler());
-        return enhancer.create();
+     try {
+         Enhancer enhancer = new Enhancer();
+         enhancer.setSuperclass(object.getClass());
+         enhancer.setCallback(new CoreHandler(getProxyBefore(),getProxyAfter()));
+         return enhancer.create();
+     }catch (Exception e){
+         e.printStackTrace();
+     }
+     return null;
+    }
 
+    public List<ProxyBefore> getProxyBefore(){
+        List<ProxyBefore> list=SpringUtils.getBeansOfType(ProxyBefore.class);
+        return list;
+    }
+    public List<ProxyAfter> getProxyAfter(){
+
+        List<ProxyAfter> list=SpringUtils.getBeansOfType(ProxyAfter.class);
+        return list;
     }
 }

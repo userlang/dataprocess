@@ -2,10 +2,7 @@ package com.dataprocess.core.factory;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
-import com.dataprocess.core.builder.CoreBuilder;
-import com.dataprocess.core.builder.BuilderDirector;
-import com.dataprocess.core.builder.OrdinaryBuilder;
-import com.dataprocess.core.builder.CorePlan;
+import com.dataprocess.core.builder.*;
 import com.dataprocess.core.common.CoreConst;
 import com.dataprocess.core.adapter.CoreData;
 import com.dataprocess.core.handler.Invocation;
@@ -72,7 +69,12 @@ public  class CoreStrategyFactory {
 
     public static boolean execute( String database,String table, String type,Object data) throws Throwable {
         try{
-            CoreBuilder builder=new OrdinaryBuilder(database,table);
+            CoreBuilder builder=null;
+            if(CoreConst.OPEN_PROXY){
+                 builder=new ProxyBuilder(database,table);
+            }else {
+                 builder=new OrdinaryBuilder(database,table);
+            }
             BuilderDirector builderDirector=new BuilderDirector(builder);
             CorePlan plan=builderDirector.build();
             CoreSubject subjectHandler =plan.getCoreSubject();

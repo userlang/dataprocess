@@ -43,4 +43,5 @@ public class AccountChainRedis extends ChainTemplate {
     public void deleteDataRollBack(Object obj) {
 
     }
+
 }

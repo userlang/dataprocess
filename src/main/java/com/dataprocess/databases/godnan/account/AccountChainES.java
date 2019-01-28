@@ -9,6 +9,10 @@ import java.util.Map;
 @Component
 public class AccountChainES extends ChainTemplate {
 
+    @Override
+    public Object update(Object obj) {
+        return super.update(obj);
+    }
 
     @Override
     public Object insertData(Object obj) {
@@ -21,7 +25,8 @@ public class AccountChainES extends ChainTemplate {
     public Object updateData(Object obj) {
 
         System.out.println("account 责任链方式正在修改es");
-        getNext().update(obj);int a=10/0;
+        getNext().update(obj);
+        int a=10/0;
         return null;
     }
 
@@ -44,4 +49,6 @@ public class AccountChainES extends ChainTemplate {
     public void deleteDataRollBack(Object obj) {
 
     }
+
+
 }
