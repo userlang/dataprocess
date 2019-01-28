@@ -42,9 +42,11 @@
     
     com.dataprocess.core.adapter ### 适配器类得扩展目前并没有做适配
 
+    com.dataprocess.core.builder ### 方案建造者
+
     com.dataprocess.core.common ### 核心工具类
 
-    com.dataprocess.core.factory ### 核心工厂 策略处理 和 Spring托管
+    com.dataprocess.core.factory ### 核心工厂 策略处理 
 
     com.dataprocess.core.handler ### 核心托管代理处理
 
@@ -98,13 +100,15 @@
 2. 在resources文件夹下 配置修改application.properties，application.yml两个文件的信息RocketMQ，Redis，Es配置
 3. 创建包 com.dataprocess.databases.*.*  第一个*包 换成你想要连接数据库的名称 第二个*包换成库下的表名，
 4. 观察者模式方案：在com.dataprocess.databases.*.*包下随便创建一个类或多个类 实现ObserverTemplate抽象类，这些类就会自己去订阅当前
-表的动态，并且该类提供了 insert update delete 和 对应的回滚方法 insertRollBack updateRollBack deleteRollBack
+表的动态，并且该类提供了 insertData updateData deleteData 和 对应的回滚方法 insertDataRollBack updateDataRollBack 
+deleteDataRollBack
 5. 责任链模式方案：在com.dataprocess.databases.*.*包下随便创建一个类或多个类 实现ChainTemplate抽象类，这些类就会被系统所管理，由使用者
-去决定是否要执行下一个类，伪代码如下：result=getNext().insert(obj)或者在做好某个类业务点包装下一个请求参数再去执行下一个类，该类提供了 
-insert update delete 和 对应的回滚方法 insertRollBack updateRollBack deleteRollBack
-6. 重点要注意得是 使用责任链模式方案 所有实现了ChainTemplate 抽象类得子类里面得属性 必须要有GET SET 方法，否则运行则会出现意想不到得错误，
-因为当前责任链链条在执行得同时，该链条上得所有类都是由Spring 和dataprocess 同时进行管理得，具体管理用到了浅Copy所以 必须要给所有属性加上
-GET　SET方法
+去决定是否要执行下一个类，伪代码如下：result=getNext().insertData(obj)或者在做好某个类业务点包装下一个请求参数再去执行下一个类，该类提供了 
+insertData updateData deleteData 和 对应的回滚方法 insertDataRollBack updateDataRollBack deleteDataRollBack
+6. 重点要注意得是和dataprocess默认建造的是OrdinaryBuilder构建者，我们也为你准备了代理构建者ProxyBuilder如果你要修改源码使用代理构建者
+扩展自己的拦截器业务， 需要注意的是所有继承ChainTemplate,ObserverTemplate抽象类的实现类里面的属性 必须要有GET SET 方法，否则运行会出现
+意想不到得错误，因为当前由dataprocess代理，本次执行的所有类都是由Spring 和dataprocess 同时进行管理得，具体管理用到了浅Copy所以 必须要给
+所有属性加上 GET　SET方法
 7 es 相关的查询服务 可以在 com.dataprocess.es 下编写
 8 找到DataProcessApplication类启动  确保项目能启动并且控制台不报错
 
