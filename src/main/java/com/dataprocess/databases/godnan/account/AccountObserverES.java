@@ -6,35 +6,35 @@ import org.springframework.stereotype.Component;
 @Component
 public class AccountObserverES extends ObserverTemplate {
     @Override
-    public Object insert(Object obj) {
+    public Object insertData(Object obj) {
 
         return null;
     }
 
     @Override
-    public Object update(Object obj) {
+    public Object updateData(Object obj) {
         System.out.println(" account  观察者方式正在修改es");
-        int a=10/0;
+
         return null;
     }
 
     @Override
-    public Object delete(Object obj) {
+    public Object deleteData(Object obj) {
         return null;
     }
 
     @Override
-    public void insertRollBack(Object obj) {
+    public void insertDataRollBack(Object obj) {
 
     }
 
     @Override
-    public void updateRollBack(Object obj) {
+    public void updateDataRollBack(Object obj) {
         System.out.println("观察者更新方法异常");
     }
 
     @Override
-    public void deleteRollBack(Object obj) {
+    public void deleteDataRollBack(Object obj) {
 
     }
 }

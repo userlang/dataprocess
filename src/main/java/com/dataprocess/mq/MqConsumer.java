@@ -25,7 +25,9 @@ public class MqConsumer implements RocketMQListener<String> {
         try {
 
             logger.info("本次操作的数据类型=" + message);
-            boolean exu = executeFactory.analysis(toData(message));
+
+                boolean exu = executeFactory.analysis(message);
+
 
         } catch (ClassNotFoundException e) {
             logger.error(e.getMessage());
@@ -40,21 +42,13 @@ public class MqConsumer implements RocketMQListener<String> {
             e.printStackTrace();
         } catch (InvocationTargetException e) {
             e.printStackTrace();
+        } catch (Throwable e) {
+            e.printStackTrace();
         }
     }
 
 
-    public CoreData toData(String message) {
-        JSONObject object = JSON.parseObject(message);
-        CoreData data=new CoreData();
-        boolean isDDl = (boolean) object.get(CoreConst.ISDDLL);
-        data.setIsDll(isDDl);
-        data.setData(object.get(CoreConst.DATA));
-        data.setDatabase((String) object.get(CoreConst.DATABASE));
-        data.setTable((String) object.get(CoreConst.TABLE));
-        data.setOptType((String) object.get(CoreConst.TYPE));
-        return data;
-    }
+
 
 
 }

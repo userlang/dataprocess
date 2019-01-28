@@ -2,22 +2,50 @@ package com.dataprocess.core.template;
 
 public abstract class ObserverTemplate {
 
+    public Object insert(Object obj){
+        try{
+            return  insertData(obj);
+        }catch (Exception e){
+            e.printStackTrace();
+             insertDataRollBack(obj);
+        }
+        return  null;
+    }
+    public Object update(Object obj){
+        try{
+            return  updateData(obj);
+        }catch (Exception e){
+            e.printStackTrace();
+            updateDataRollBack(obj);
+        }
+        return  null;
+    }
+    public Object delete(Object obj){
+        try{
+            return  deleteData(obj);
+        }catch (Exception e){
+            e.printStackTrace();
+            deleteDataRollBack(obj);
+        }
+        return  null;
+    }
+
 
     // *  Logic of * table insertion under library
-    public abstract Object insert(Object obj);
+    public abstract Object insertData(Object obj);
 
     // *  Logic for modifying the * table under the library
-    public abstract Object update(Object obj);
+    public abstract Object updateData(Object obj);
 
     // *  Logic for deleting the * table under the library
-    public abstract Object delete(Object obj);
+    public abstract Object deleteData(Object obj);
 
     // *  Exception logic of * table insertion under library
-    public abstract void insertRollBack(Object obj);
+    public abstract void insertDataRollBack(Object obj);
 
     // *  Exception logic for modification of * table under library
-    public abstract void updateRollBack(Object obj);
+    public abstract void updateDataRollBack(Object obj);
 
     // *  Exception logic for deleting the * table under the library
-    public abstract void deleteRollBack(Object obj);
+    public abstract void deleteDataRollBack(Object obj);
 }

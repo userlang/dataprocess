@@ -12,36 +12,36 @@ import org.springframework.stereotype.Component;
 public class MerchantES extends ChainTemplate {
 
     @Override
-    public Object insert(Object obj) {
+    public Object insertData(Object obj) {
         System.out.println("正在执行商户es添加");
         return null;
     }
 
     @Override
-    public Object update(Object obj) {
+    public Object updateData(Object obj) {
         System.out.println("正在执行商户es修改");
         getNext().update(obj);
         return null;
     }
 
     @Override
-    public Object delete(Object obj) {
+    public Object deleteData(Object obj) {
         System.out.println("正在执行商户es删除");
         return null;
     }
 
     @Override
-    public void insertRollBack(Object obj) {
+    public void insertDataRollBack(Object obj) {
         System.out.println("正在执行商户es添加回滚");
     }
 
     @Override
-    public void updateRollBack(Object obj) {
+    public void updateDataRollBack(Object obj) {
         System.out.println("正在执行商户es修改回滚");
     }
 
     @Override
-    public void deleteRollBack(Object obj) {
+    public void deleteDataRollBack(Object obj) {
         System.out.println("正在执行商户es删除回滚");
     }
 }

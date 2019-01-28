@@ -12,35 +12,37 @@ import org.springframework.stereotype.Component;
 public class MerchantRedis extends ChainTemplate {
 
     @Override
-    public Object insert(Object obj) {
+    public Object insertData(Object obj) {
         System.out.println("正在执行商户redis添加");
         return null;
     }
 
     @Override
-    public Object update(Object obj) {
+    public Object updateData(Object obj) {
         System.out.println("正在执行商户redis修改");
         return null;
     }
 
     @Override
-    public Object delete(Object obj) {
+    public Object deleteData(Object obj) {
         System.out.println("正在执行商户redis删除");
         return null;
     }
 
+
+
     @Override
-    public void insertRollBack(Object obj) {
+    public void insertDataRollBack(Object obj) {
         System.out.println("正在执行商户添加redis回滚");
     }
 
     @Override
-    public void updateRollBack(Object obj) {
+    public void updateDataRollBack(Object obj) {
         System.out.println("正在执行商户修改redis回滚");
     }
 
     @Override
-    public void deleteRollBack(Object obj) {
+    public void deleteDataRollBack(Object obj) {
         System.out.println("正在执行商户删除redis回滚");
     }
 }

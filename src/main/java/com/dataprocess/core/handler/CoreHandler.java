@@ -16,8 +16,11 @@ public class CoreHandler implements MethodInterceptor {
 
     @Override
     public Object intercept(Object obj, Method method, Object[] objects, MethodProxy methodProxy) throws Throwable {
+         System.out.println("前置增强"+method.getName());
         Invocation invocation=new Invocation(obj,method,methodProxy,objects);
-        return invocation.invokeProxy();
+        Object object= invocation.invokeProxy();
+        // System.out.println("后置增强");
+        return object;
     }
 
 

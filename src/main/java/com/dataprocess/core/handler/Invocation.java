@@ -63,8 +63,8 @@ public class Invocation {
         this.args = args;
     }
     public Object invokeProxy() throws Throwable {
-
-        try{
+        return  methodProxy.invokeSuper(target,argsProxy);
+        /*try{
           return  methodProxy.invokeSuper(target,argsProxy);
         }catch (Exception e){
             String methodName=this.method.getName()+ROLLBACK;
@@ -82,12 +82,11 @@ public class Invocation {
                     throwable.printStackTrace();
                 }
             }
-        }
-        return null;
+        }*/
     }
     public Object invoke() throws Throwable {
-
-        try{
+        return  method.invoke(target,args);
+       /* try{
             return  method.invoke(target,args);
         }catch (Exception e){
             String methodName=this.method.getName()+ROLLBACK;
@@ -106,9 +105,9 @@ public class Invocation {
                 }
             }
         }
-        return null;
+        return null;*/
     }
 
-    public static final String ROLLBACK="RollBack";
+   // public static final String ROLLBACK="RollBack";
 
 }

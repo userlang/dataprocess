@@ -1,5 +1,11 @@
 package com.dataprocess.core.factory;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
+import com.dataprocess.core.builder.CoreBuilder;
+import com.dataprocess.core.builder.BuilderDirector;
+import com.dataprocess.core.builder.OrdinaryBuilder;
+import com.dataprocess.core.builder.CorePlan;
 import com.dataprocess.core.common.CoreConst;
 import com.dataprocess.core.adapter.CoreData;
 import com.dataprocess.core.handler.Invocation;
@@ -10,9 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import javax.el.MethodNotFoundException;
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.List;
 
 /**
  * Resolve processing policy factory
@@ -26,9 +30,20 @@ public  class CoreStrategyFactory {
 
     private CoreStrategyFactory(){}
 
+    public CoreData toData(String message) {
+        JSONObject object = JSON.parseObject(message);
+        CoreData data=new CoreData();
+        boolean isDDl = (boolean) object.get(CoreConst.ISDDLL);
+        data.setIsDll(isDDl);
+        data.setData(object.get(CoreConst.DATA));
+        data.setDatabase((String) object.get(CoreConst.DATABASE));
+        data.setTable((String) object.get(CoreConst.TABLE));
+        data.setOptType((String) object.get(CoreConst.TYPE));
+        return data;
+    }
 
-    public static boolean analysis(CoreData data) throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
-
+    public static boolean analysis(String message) throws Throwable {
+        CoreData data= getInstance().toData(message);
         boolean isDDl= (boolean) data.getIsDll();
         if(!isDDl){
             String database= data.getDatabase();
@@ -55,25 +70,26 @@ public  class CoreStrategyFactory {
     }
 
 
-    public static boolean execute( String database,String table, String type,Object data) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public static boolean execute( String database,String table, String type,Object data) throws Throwable {
         try{
-            List<Object> tableListClass =coreHandlerFactory.createTableListClass(database,table);
-            if(null==tableListClass||(null!=tableListClass&&tableListClass.size()==0)){
-                // logger.info(" No implementation class found for "+database+"."+table);
-                return true;
-            }
-            CoreSubject subjectHandler =coreHandlerFactory.createObserverTemplate(tableListClass);
-            ChainTemplate chainHandler= coreHandlerFactory.createChainTemplate(tableListClass);
+            CoreBuilder builder=new OrdinaryBuilder(database,table);
+            BuilderDirector builderDirector=new BuilderDirector(builder);
+            CorePlan plan=builderDirector.build();
+            CoreSubject subjectHandler =plan.getCoreSubject();
+            ChainTemplate chainHandler= plan.getChainTemplate();
             if(null!=subjectHandler){
                 subjectHandler.notify(data,type);
             }
             if(null!=chainHandler){
 
                 Method method  = chainHandler.getClass().getMethod(type.toLowerCase(),Object.class);
+
                 if(null==method){
                     throw new MethodNotFoundException("  The method of this "+chainHandler.getClass()+" cannot be found   ");
                 }
-                method.invoke(chainHandler,data);
+                Invocation invocation=new Invocation(chainHandler,chainHandler.getClass().getMethod(type.toLowerCase(),Object.class),data);
+                invocation.invoke();
+
             }
 
             return true;
@@ -102,5 +118,4 @@ public  class CoreStrategyFactory {
         }
         return instance;
     }
-    private static CoreTrusteeshipFactory coreHandlerFactory= CoreTrusteeshipFactory.getInstance();
 }
