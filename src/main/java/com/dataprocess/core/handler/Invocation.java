@@ -64,50 +64,12 @@ public class Invocation {
     }
     public Object invokeProxy() throws Throwable {
         return  methodProxy.invokeSuper(target,argsProxy);
-        /*try{
-          return  methodProxy.invokeSuper(target,argsProxy);
-        }catch (Exception e){
-            String methodName=this.method.getName()+ROLLBACK;
-            Method rollBackMethod= null;
-            try {
-                rollBackMethod = this.target.getClass().getMethod(methodName,Object.class);
-            } catch (NoSuchMethodException e1) {
-                e1.printStackTrace();
-            }
-            if(null!=rollBackMethod){
-               this.method=rollBackMethod;
-                try {
-                    method.invoke(target,args);
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                }
-            }
-        }*/
+
     }
     public Object invoke() throws Throwable {
         return  method.invoke(target,args);
-       /* try{
-            return  method.invoke(target,args);
-        }catch (Exception e){
-            String methodName=this.method.getName()+ROLLBACK;
-            Method rollBackMethod= null;
-            try {
-                rollBackMethod = this.target.getClass().getMethod(methodName,Object.class);
-            } catch (NoSuchMethodException e1) {
-                e1.printStackTrace();
-            }
-            if(null!=rollBackMethod){
-                this.method=rollBackMethod;
-                try {
-                    method.invoke(target,args);
-                } catch (Throwable throwable) {
-                    throwable.printStackTrace();
-                }
-            }
-        }
-        return null;*/
+
     }
 
-   // public static final String ROLLBACK="RollBack";
 
 }

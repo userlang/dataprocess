@@ -5,6 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.dataprocess.core.builder.*;
 import com.dataprocess.core.common.CoreConst;
 import com.dataprocess.core.adapter.CoreData;
+import com.dataprocess.core.common.Properties;
 import com.dataprocess.core.handler.Invocation;
 import com.dataprocess.core.subject.CoreSubject;
 import com.dataprocess.core.template.ChainTemplate;
@@ -26,6 +27,8 @@ public  class CoreStrategyFactory {
 
 
     private CoreStrategyFactory(){}
+
+
 
     public CoreData toData(String message) {
         JSONObject object = JSON.parseObject(message);
@@ -66,11 +69,10 @@ public  class CoreStrategyFactory {
     return true;
     }
 
-
     public static boolean execute( String database,String table, String type,Object data) throws Throwable {
         try{
             CoreBuilder builder=null;
-            if(CoreConst.OPEN_PROXY){
+            if(Properties.isOPEN_PROXY){
                  builder=new ProxyBuilder(database,table);
             }else {
                  builder=new OrdinaryBuilder(database,table);
@@ -102,8 +104,6 @@ public  class CoreStrategyFactory {
         return false;
     }
     private static volatile CoreStrategyFactory instance;
-
-
 
 
     public static CoreStrategyFactory getInstance() {

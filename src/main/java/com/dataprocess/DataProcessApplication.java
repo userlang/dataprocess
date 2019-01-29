@@ -11,9 +11,7 @@ import java.util.List;
 public class DataProcessApplication {
 
 	public static void main(String[] args) {
-
-			 SpringApplication.run(DataProcessApplication.class, args);
-
+		SpringApplication.run(DataProcessApplication.class, args);
 	}
 
 }
