@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class SubscribeSubject implements  CoreSubject{
-    List<ObserverTemplate> observerTemplates=new ArrayList<>();
+    private List<ObserverTemplate> observerTemplates=new ArrayList<>();
 
 
 
