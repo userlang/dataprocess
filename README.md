@@ -137,12 +137,4 @@ insertData updateData deleteData 和 对应的回滚方法 insertDataRollBack up
 maven 快速接入请阅读
 https://gitee.com/lang_junnan/dataprocess-spring-boot-starter
 
- `<dependency> 
 
-     <groupId>com.lonelylang.dataprocess</groupId>
-
-     <artifactId>dataprocess-spring-boot-starter</artifactId>
-
-     <version>1.2.RELEASE</version>
-
- </dependency>`
