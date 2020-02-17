@@ -4,7 +4,7 @@ import com.dataprocess.core.common.ClazzUtils;
 import com.dataprocess.core.common.CoreConst;
 import com.dataprocess.core.subject.CoreSubject;
 import com.dataprocess.core.subject.SubscribeSubject;
-import com.dataprocess.core.template.ChainTemplate;
+import com.dataprocess.core.template.LinkedTemplate;
 import com.dataprocess.core.template.ListenerTemplate;
 
 import java.util.ArrayList;
@@ -41,12 +41,12 @@ public class OrdinaryBuilder extends CoreBuilder {
 
     @Override
     public void buildChainTemplate() throws ClassNotFoundException, NoSuchMethodException {
-        List<ChainTemplate> coreHandlers =new ArrayList<>();
+        List<LinkedTemplate> coreHandlers =new ArrayList<>();
         List<Object> objectList=createTableListClass();
         if(null!=objectList&&objectList.size()>0){
             for (int x=0;x<objectList.size();x++){
-                if(objectList.get(x) instanceof ChainTemplate){
-                    coreHandlers.add((ChainTemplate) objectList.get(x));
+                if(objectList.get(x) instanceof LinkedTemplate){
+                    coreHandlers.add((LinkedTemplate) objectList.get(x));
                 }
             }
              super.plan.setChainTemplate(assembleChain(coreHandlers));
@@ -58,7 +58,7 @@ public class OrdinaryBuilder extends CoreBuilder {
      * @param chainTemplates
      * @return
      */
-    private ChainTemplate assembleChain(List<ChainTemplate> chainTemplates) {
+    private LinkedTemplate assembleChain(List<LinkedTemplate> chainTemplates) {
         if(null!=chainTemplates&&chainTemplates.size()>0){
             for (int i=0;i<chainTemplates.size()-1;i++)
             {

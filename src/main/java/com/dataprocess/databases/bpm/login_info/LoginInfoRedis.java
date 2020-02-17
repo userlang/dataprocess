@@ -1,13 +1,13 @@
 package com.dataprocess.databases.bpm.login_info;
 
-import com.dataprocess.core.template.ChainTemplate;
+import com.dataprocess.core.template.LinkedTemplate;
 import com.dataprocess.redis.RedisUtil;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.Resource;
 
 @Component
-public class LoginInfoRedis extends ChainTemplate {
+public class LoginInfoRedis extends LinkedTemplate {
 
     @Resource
     RedisUtil redisUtil;

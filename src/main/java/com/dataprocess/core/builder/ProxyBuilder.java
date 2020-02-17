@@ -8,7 +8,7 @@ import com.dataprocess.core.interceptor.ProxyAfter;
 import com.dataprocess.core.interceptor.ProxyBefore;
 import com.dataprocess.core.subject.CoreSubject;
 import com.dataprocess.core.subject.SubscribeSubject;
-import com.dataprocess.core.template.ChainTemplate;
+import com.dataprocess.core.template.LinkedTemplate;
 import com.dataprocess.core.template.ListenerTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cglib.proxy.Enhancer;
@@ -49,13 +49,13 @@ public class ProxyBuilder extends CoreBuilder {
 
     @Override
     public void buildChainTemplate() throws ClassNotFoundException, NoSuchMethodException {
-        List<ChainTemplate> coreHandlers =new ArrayList<>();
+        List<LinkedTemplate> coreHandlers =new ArrayList<>();
         List<Object> objectList=createTableListClass();
 
           if(null!=objectList&&objectList.size()>0){
               for (int x=0;x<objectList.size();x++){
-                  if(objectList.get(x) instanceof ChainTemplate){
-                      ChainTemplate proxy=(ChainTemplate) createProxyCoreHandler(objectList.get(x));
+                  if(objectList.get(x) instanceof LinkedTemplate){
+                      LinkedTemplate proxy=(LinkedTemplate) createProxyCoreHandler(objectList.get(x));
                       BeanUtils.copyProperties(objectList.get(x), proxy);
                       coreHandlers.add(proxy);
 
@@ -69,7 +69,7 @@ public class ProxyBuilder extends CoreBuilder {
      * @param chainTemplates
      * @return
      */
-    private ChainTemplate assembleChain(List<ChainTemplate> chainTemplates) {
+    private LinkedTemplate assembleChain(List<LinkedTemplate> chainTemplates) {
         if(null!=chainTemplates&&chainTemplates.size()>0){
             for (int i=0;i<chainTemplates.size()-1;i++)
             {

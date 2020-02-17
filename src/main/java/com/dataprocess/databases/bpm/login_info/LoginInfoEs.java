@@ -1,10 +1,10 @@
 package com.dataprocess.databases.bpm.login_info;
 
-import com.dataprocess.core.template.ChainTemplate;
+import com.dataprocess.core.template.LinkedTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class LoginInfoEs extends ChainTemplate {
+public class LoginInfoEs extends LinkedTemplate {
 
     @Override
     public Object insertData(Object obj) {
