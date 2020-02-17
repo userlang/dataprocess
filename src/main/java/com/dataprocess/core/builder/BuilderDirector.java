@@ -10,7 +10,7 @@ public class BuilderDirector
     public CorePlan build(){
         try {
             builder.buildChainTemplate();
-            builder.buildObserverTemplate();
+            builder.buildListenerTemplate();
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         } catch (NoSuchMethodException e) {
