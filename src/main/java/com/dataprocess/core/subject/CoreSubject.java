@@ -1,17 +1,17 @@
 package com.dataprocess.core.subject;
 
-import com.dataprocess.core.template.ObserverTemplate;
+import com.dataprocess.core.template.ListenerTemplate;
 
 public interface CoreSubject {
     /**
      * 增加订阅者
      *
      */
-    public void attach(ObserverTemplate obServer);
+    public void attach(ListenerTemplate obServer);
     /**
      * 删除订阅者
      */
-    public void detach(ObserverTemplate obServer);
+    public void detach(ListenerTemplate obServer);
 
     /**
      * 通知订阅者更新x消息

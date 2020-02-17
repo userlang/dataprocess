@@ -9,7 +9,7 @@ import com.dataprocess.core.interceptor.ProxyBefore;
 import com.dataprocess.core.subject.CoreSubject;
 import com.dataprocess.core.subject.SubscribeSubject;
 import com.dataprocess.core.template.ChainTemplate;
-import com.dataprocess.core.template.ObserverTemplate;
+import com.dataprocess.core.template.ListenerTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cglib.proxy.Enhancer;
 
@@ -35,8 +35,8 @@ public class ProxyBuilder extends CoreBuilder {
         if(null!=objectList&&objectList.size()>0){
             subject= new SubscribeSubject();
             for (int x=0;x<objectList.size();x++){
-                if(objectList.get(x) instanceof ObserverTemplate){
-                    ObserverTemplate proxy=(ObserverTemplate) createProxyCoreHandler(objectList.get(x));
+                if(objectList.get(x) instanceof ListenerTemplate){
+                    ListenerTemplate proxy=(ListenerTemplate) createProxyCoreHandler(objectList.get(x));
                     BeanUtils.copyProperties(objectList.get(x), proxy);
                     subject.attach(proxy);
 

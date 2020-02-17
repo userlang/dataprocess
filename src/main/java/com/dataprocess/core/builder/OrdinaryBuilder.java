@@ -5,7 +5,7 @@ import com.dataprocess.core.common.CoreConst;
 import com.dataprocess.core.subject.CoreSubject;
 import com.dataprocess.core.subject.SubscribeSubject;
 import com.dataprocess.core.template.ChainTemplate;
-import com.dataprocess.core.template.ObserverTemplate;
+import com.dataprocess.core.template.ListenerTemplate;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,8 +30,8 @@ public class OrdinaryBuilder extends CoreBuilder {
         if(null!=objectList&&objectList.size()>0){
             subject= new SubscribeSubject();
             for (int x=0;x<objectList.size();x++){
-                if(objectList.get(x) instanceof ObserverTemplate){
-                    subject.attach((ObserverTemplate) objectList.get(x));
+                if(objectList.get(x) instanceof ListenerTemplate){
+                    subject.attach((ListenerTemplate) objectList.get(x));
                 }
             }
             super.plan.setCoreSubject(subject);

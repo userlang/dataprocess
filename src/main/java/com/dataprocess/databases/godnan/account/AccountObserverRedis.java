@@ -1,10 +1,10 @@
 package com.dataprocess.databases.godnan.account;
 
-import com.dataprocess.core.template.ObserverTemplate;
+import com.dataprocess.core.template.ListenerTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AccountObserverRedis extends ObserverTemplate {
+public class AccountObserverRedis extends ListenerTemplate {
     @Override
     public Object insertData(Object obj) {
 
