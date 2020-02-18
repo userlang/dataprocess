@@ -6,8 +6,8 @@ import com.dataprocess.core.common.SpringUtils;
 import com.dataprocess.core.handler.CoreHandler;
 import com.dataprocess.core.interceptor.ProxyAfter;
 import com.dataprocess.core.interceptor.ProxyBefore;
-import com.dataprocess.core.subject.CoreSubject;
-import com.dataprocess.core.subject.SubscribeSubject;
+import com.dataprocess.core.subject.DataProcessContext;
+import com.dataprocess.core.subject.DataProcessRequestAware;
 import com.dataprocess.core.template.LinkedTemplate;
 import com.dataprocess.core.template.ListenerTemplate;
 import org.springframework.beans.BeanUtils;
@@ -29,20 +29,20 @@ public class ProxyBuilder extends CoreBuilder {
 
     @Override
     public void buildListenerTemplate() throws ClassNotFoundException, NoSuchMethodException {
-        CoreSubject subject;
+        DataProcessContext listener;
         List<Object> objectList=createTableListClass();
 
         if(null!=objectList&&objectList.size()>0){
-            subject= new SubscribeSubject();
+            listener= new DataProcessRequestAware();
             for (int x=0;x<objectList.size();x++){
                 if(objectList.get(x) instanceof ListenerTemplate){
                     ListenerTemplate proxy=(ListenerTemplate) createProxyCoreHandler(objectList.get(x));
                     BeanUtils.copyProperties(objectList.get(x), proxy);
-                    subject.attach(proxy);
+                    listener.addListener(proxy);
 
                 }
             }
-            super.plan.setCoreSubject(subject);
+            super.plan.setDataProcessListener(listener);
         }
 
     }
@@ -61,7 +61,7 @@ public class ProxyBuilder extends CoreBuilder {
 
                   }
               }
-              super.plan.setChainTemplate(assembleChain(coreHandlers));
+              super.plan.setLinkedTemplate(assembleChain(coreHandlers));
           }
     }
     /**

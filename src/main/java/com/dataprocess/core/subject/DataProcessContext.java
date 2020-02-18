@@ -2,16 +2,16 @@ package com.dataprocess.core.subject;
 
 import com.dataprocess.core.template.ListenerTemplate;
 
-public interface CoreSubject {
+public interface DataProcessContext {
     /**
      * 增加订阅者
      *
      */
-    public void attach(ListenerTemplate obServer);
+    public void addListener(ListenerTemplate obServer);
     /**
-     * 删除订阅者
+     * 删除订阅者x
      */
-    public void detach(ListenerTemplate obServer);
+    public void delListener(ListenerTemplate obServer);
 
     /**
      * 通知订阅者更新x消息

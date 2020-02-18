@@ -7,7 +7,7 @@ import com.dataprocess.core.common.CoreConst;
 import com.dataprocess.core.adapter.CoreData;
 import com.dataprocess.core.common.Properties;
 import com.dataprocess.core.handler.Invocation;
-import com.dataprocess.core.subject.CoreSubject;
+import com.dataprocess.core.subject.DataProcessContext;
 import com.dataprocess.core.template.LinkedTemplate;
 import io.netty.util.internal.StringUtil;
 import org.slf4j.Logger;
@@ -79,8 +79,8 @@ public  class CoreStrategyFactory {
             }
             BuilderDirector builderDirector=new BuilderDirector(builder);
             CorePlan plan=builderDirector.build();
-            CoreSubject subjectHandler =plan.getCoreSubject();
-            LinkedTemplate chainHandler= plan.getChainTemplate();
+            DataProcessContext subjectHandler =plan.getDataProcessListener();
+            LinkedTemplate chainHandler= plan.getLinkedTemplate();
             if(null!=subjectHandler){
                 subjectHandler.notify(coreData.getData(),coreData.getOptType());
             }

@@ -1,28 +1,27 @@
 package com.dataprocess.core.builder;
 
-import com.dataprocess.core.subject.CoreSubject;
+import com.dataprocess.core.subject.DataProcessContext;
 import com.dataprocess.core.template.LinkedTemplate;
 
 public class CorePlan {
 
-    private CoreSubject coreSubject;
+    private DataProcessContext dataProcessListener;
 
     private LinkedTemplate linkedTemplate;
 
-
-    public LinkedTemplate getChainTemplate() {
+    public LinkedTemplate getLinkedTemplate() {
         return linkedTemplate;
     }
 
-    public void setChainTemplate(LinkedTemplate linkedTemplate) {
+    public void setLinkedTemplate(LinkedTemplate linkedTemplate) {
         this.linkedTemplate = linkedTemplate;
     }
 
-    public CoreSubject getCoreSubject() {
-        return coreSubject;
+    public DataProcessContext getDataProcessListener() {
+        return dataProcessListener;
     }
 
-    public void setCoreSubject(CoreSubject coreSubject) {
-        this.coreSubject = coreSubject;
+    public void setDataProcessListener(DataProcessContext dataProcessListener) {
+        this.dataProcessListener = dataProcessListener;
     }
 }
