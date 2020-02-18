@@ -1,6 +1,6 @@
 package com.dataprocess.core.builder;
 
-import com.dataprocess.core.subject.DataProcessContext;
+import com.dataprocess.core.listener.DataProcessContext;
 import com.dataprocess.core.template.LinkedTemplate;
 
 public class CorePlan {
