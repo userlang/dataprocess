@@ -2,10 +2,10 @@ package com.dataprocess.core.builder;
 
 import com.dataprocess.core.common.ClazzUtils;
 import com.dataprocess.core.common.CoreConst;
-import com.dataprocess.core.listener.DataProcessContext;
-import com.dataprocess.core.listener.DataProcessRequestAware;
+import com.dataprocess.core.listener.DataProcessListener;
+import com.dataprocess.core.listener.DataProcessListeners;
 import com.dataprocess.core.template.LinkedTemplate;
-import com.dataprocess.core.template.ListenerTemplate;
+import com.dataprocess.core.template.EventTemplateListener;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +24,14 @@ public class OrdinaryBuilder extends CoreBuilder {
 
     @Override
     public void buildListenerTemplate() throws ClassNotFoundException, NoSuchMethodException {
-        DataProcessContext subject;
+        DataProcessListener subject;
         List<Object> objectList=createTableListClass();
 
         if(null!=objectList&&objectList.size()>0){
-            subject= new DataProcessRequestAware();
+            subject= new DataProcessListeners();
             for (int x=0;x<objectList.size();x++){
-                if(objectList.get(x) instanceof ListenerTemplate){
-                    subject.addListener((ListenerTemplate) objectList.get(x));
+                if(objectList.get(x) instanceof EventTemplateListener){
+                    subject.addListener((EventTemplateListener) objectList.get(x));
                 }
             }
             super.plan.setDataProcessListener(subject);

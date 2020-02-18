@@ -1,17 +1,17 @@
 package com.dataprocess.core.listener;
 
-import com.dataprocess.core.template.ListenerTemplate;
+import com.dataprocess.core.template.EventTemplateListener;
 
-public interface DataProcessContext {
+public interface DataProcessListener {
     /**
      * 增加订阅者
      *
      */
-    public void addListener(ListenerTemplate obServer);
+    public void addListener(EventTemplateListener obServer);
     /**
      * 删除订阅者x
      */
-    public void delListener(ListenerTemplate obServer);
+    public void delListener(EventTemplateListener obServer);
 
     /**
      * 通知订阅者更新x消息

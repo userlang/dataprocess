@@ -1,6 +1,6 @@
 package com.dataprocess.core.template;
 
-public abstract class ListenerTemplate {
+public abstract class EventTemplateListener {
 
     public Object insert(Object obj){
         try{

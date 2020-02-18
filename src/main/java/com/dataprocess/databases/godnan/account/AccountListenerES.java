@@ -1,10 +1,10 @@
 package com.dataprocess.databases.godnan.account;
 
-import com.dataprocess.core.template.ListenerTemplate;
+import com.dataprocess.core.template.EventTemplateListener;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AccountListenerES extends ListenerTemplate {
+public class AccountListenerES extends EventTemplateListener {
     @Override
     public Object insertData(Object obj) {
 
