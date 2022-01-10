@@ -20,8 +20,16 @@ dataprocess角色：
 
  
 **#### Software Architecture** 
-Software architecture description
-
+    com.dataprocess.core.common
+    com.dataprocess.core.factory
+    com.dataprocess.core.handler
+    com.dataprocess.databases.你链接的数据库名字.表名
+    com.dataprocess.databases.godnan.p_log
+    com.dataprocess.databases.godnan.u_user_tracking
+    com.dataprocess.es.api
+    com.dataprocess.es.dao
+    com.dataprocess.es.entity
+    com.dataprocess.mq
 **#### Installation** 
 
 1.  xxxx
