@@ -46,7 +46,7 @@ public class CoreHandlerFactory {
     public CoreHandler createCoreHandler(String dataBase, String table) throws ClassNotFoundException, NoSuchMethodException {
 
         List<Object> list= ClazzUtils.getCalsss(
-                CoreConst.ExecutePackagePreFix+dataBase+"."+table);
+                CoreConst.EXECUTE_PACKAGE_PREFIX+dataBase+"."+table);
         if(null==list||list.size()<=0){
             return null;
 

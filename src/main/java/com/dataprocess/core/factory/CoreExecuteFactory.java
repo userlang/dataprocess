@@ -49,8 +49,9 @@ public  class CoreExecuteFactory {
         return instance;
     }
     private static CoreHandlerFactory coreHandlerFactory=CoreHandlerFactory.getInstance();
+
     /**
-     *
+     * 解析处理器
      * @param message
      * @return
      * @throws ClassNotFoundException
@@ -63,34 +64,33 @@ public  class CoreExecuteFactory {
         JSONObject object= JSON.parseObject(message);
         boolean isDDl= (boolean) object.get(CoreConst.ISDDLL);
         if(!isDDl){
-            String databaseName= (String) object.get(CoreConst.DATABASE);
-            String tableName= (String) object.get(CoreConst.TABLE);
+            String database= (String) object.get(CoreConst.DATABASE);
+            String table = (String) object.get(CoreConst.TABLE);
             String type=(String)object.get(CoreConst.TYPE);
             if(BLACKLIST.contains(type)){
                 return true;
             }
-            if(StringUtil.isNullOrEmpty(databaseName)){
-                throw  new NullPointerException(databaseName);
+            if(StringUtil.isNullOrEmpty(database)){
+                throw  new NullPointerException(database);
             }
-            if(StringUtil.isNullOrEmpty(tableName)){
-                throw  new NullPointerException(tableName);
+            if(StringUtil.isNullOrEmpty(table)){
+                throw  new NullPointerException(table);
             }
             Object data=object.get(CoreConst.DATA);
             if(null==data){
                 throw  new NullPointerException("current execute data is  null");
             }
-            CoreHandler coreHandler=coreHandlerFactory.createCoreHandler(databaseName,tableName);
 
-            //从 spring获取该类
-            return execute(coreHandler,data,type);
+            return execute( database,table,type,data);
         }
 
     return true;
     }
 
     /**
-     * 执行具体的方法业务逻辑
-     * @param coreHandler
+     * 策略处理器
+     * @param database
+     * @param table
      * @param data
      * @param type
      * @return
@@ -98,8 +98,9 @@ public  class CoreExecuteFactory {
      * @throws InvocationTargetException
      * @throws IllegalAccessException
      */
-    public static boolean execute(CoreHandler coreHandler, Object data, String type) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
+    public static boolean execute( String database,String table, String type,Object data) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         try{
+            CoreHandler coreHandler=coreHandlerFactory.createCoreHandler(database,table);
             Method method  = coreHandler.getClass().getMethod(type.toLowerCase(),Object.class);
             if(null==method){
                 throw new MethodNotFoundException("  The method of this "+coreHandler.getClass()+" cannot be found   ");
