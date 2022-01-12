@@ -46,10 +46,16 @@
     com.dataprocess.es.dao ### es 到层面的操作
 
     com.dataprocess.es.entity ### es 涉及到实体 也叫文档
+    
+    com.dataprocess.es.index  ### es 文档索引
+    
 
     com.dataprocess.mq ### 监听rocketmq推送的消息
 
+    com.dataprocess.init ###初始化 es索引
+
     com.dataprocess.common ###  业务工具类 使用者可在该包下创建工具类
+    
 
 **#### Installation** 
 1.  相关的资源地址:
