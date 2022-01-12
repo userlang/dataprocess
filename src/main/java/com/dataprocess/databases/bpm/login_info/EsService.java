@@ -28,7 +28,7 @@ public class EsService extends CoreHandler {
                 entity.setId(Integer.parseInt(item.get("id")+""));
                 entity.setLoginAccount(item.get("login_account")+"");
                 entity.setAccountType(Integer.parseInt(item.get("account_type")+""));;
-                entity.setLoginState((int)item.get("login_state"));
+                entity.setLoginState(Integer.parseInt(item.get("login_state")+""));
                 entity.setLoginMessage(item.get("login_message")+"");
                 entitys.add(entity);
             }
