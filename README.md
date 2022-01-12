@@ -38,16 +38,14 @@
 
     com.dataprocess.core.handler ### 核心处理模板
 
-
     com.dataprocess.databases ### 数据业务处理包 该包是专门为使用者提供的
 
     ### 该包下的第一个*包是数据库名称 第二个*包是数据表名称，使用者应 按照规范
     ### 在当前表名包下创建过滤器类进行后续业务操作
     com.dataprocess.databases.*.*  
-    
+
     ###demo案例 godnan包是MySql中godnan库，u_user_tracking包是godnan库下的u_user_tracking表 
     com.dataprocess.databases.godnan.u_user_tracking 
-
 
     com.dataprocess.es.api ### es接口对外提供的查询
 
@@ -57,12 +55,13 @@
     
     com.dataprocess.es.index  ### es 文档索引
     
-
     com.dataprocess.mq ### 监听rocketmq推送的消息
 
     com.dataprocess.init ###初始化 es索引
 
     com.dataprocess.common ###  业务工具类 使用者可在该包下创建工具类
+    
+    com.dataprocess.redis  ###redis 配置相关信息
 **系统架构图** 
 
 **系统依赖安装** 
