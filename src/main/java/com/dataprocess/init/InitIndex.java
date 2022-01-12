@@ -23,7 +23,7 @@ public class InitIndex {
 
     @PostConstruct
     void createIndex() throws IOException {
-
+        //初始化es索引
         CreateIndexRequest request=new CreateIndexRequest(DocIndex.LOGININFO);
         if(!indexExists(DocIndex.LOGININFO)){
             CreateIndexResponse response= restHighLevelClient.indices().create(request, RequestOptions.DEFAULT);
