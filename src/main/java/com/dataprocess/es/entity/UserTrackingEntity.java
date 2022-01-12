@@ -1,5 +1,6 @@
 package com.dataprocess.es.entity;
 
+import com.dataprocess.es.index.DocIndex;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
@@ -7,7 +8,7 @@ import org.springframework.data.elasticsearch.annotations.Document;
 import java.util.Date;
 
 // es 创建索引 put http://localhost:9200/<index>/<type>/[<id>]
-@Document(indexName = "langking")
+@Document(indexName = DocIndex.USERTRACKING)
 public class UserTrackingEntity {
 
     @Id

@@ -101,6 +101,10 @@ public  class CoreExecuteFactory {
     public static boolean execute( String database,String table, String type,Object data) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         try{
             CoreHandler coreHandler=coreHandlerFactory.createCoreHandler(database,table);
+            if(null==coreHandler){
+                // logger.info(" No implementation class found for "+database+"."+table);
+                return true;
+            }
             Method method  = coreHandler.getClass().getMethod(type.toLowerCase(),Object.class);
             if(null==method){
                 throw new MethodNotFoundException("  The method of this "+coreHandler.getClass()+" cannot be found   ");

@@ -1,10 +1,11 @@
 package com.dataprocess.es.entity;
 
+import com.dataprocess.es.index.DocIndex;
 import com.sun.javafx.beans.IDProperty;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
-@Document(indexName = "logininfo")
+@Document(indexName = DocIndex.LOGININFO)
 public class LoginInfoEntity {
 
 
