@@ -64,7 +64,7 @@
     com.dataprocess.redis  ###redis 配置相关信息
 **系统架构图** 
 
-!   [架构图 ] ![](image/jiagou.png)
+ ![](image/jiagou.png)
 **系统安装依赖** 
 1.  相关的资源地址:
 2.  准备环境 必备条件本地应安装好 jdk1.8  并且配置好环境变量
@@ -87,5 +87,5 @@
 
 **交流社区** 
 
-!   [qq交流群 ] ![](image/jiaoliu.png)
+![qq交流群] ![](image/jiaoliu.png)
  
