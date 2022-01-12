@@ -5,7 +5,7 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.elasticsearch.annotations.Document;
 
 @Document(indexName = "logininfo")
-public class LoginInfo {
+public class LoginInfoEntity {
 
 
     @Id

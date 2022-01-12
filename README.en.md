@@ -52,13 +52,13 @@
     com.dataprocess.common ###  业务工具类 使用者可在该包下创建工具类
 
 **#### Installation** 
-
-1.  下载ElasticSearch到本地并且解压，并且创建com.dataprocess.es.entity包下用到的索引，不然会报错
-2.  下载Canal到本地并且解压，并且 配置好数据库连接 登录名 密码 等
-3.  下载RocketMQ到本地并且解压 启动nasespace 启动broker要确保dataprocess监听的Topic存在
-4.  下载Redis到本地并且安装 
-5.  下载dataprocess也就是当前项目到本地，并且找到SpringBoot的运行类 点击运行，要确保ES
-
+1.  准备环境 必备条件本地应安装好 jdk1.8  并且配置好环境变量
+2.  下载ElasticSearch到本地并且解压，并且创建com.dataprocess.es.entity包下用到的索引，不然会报错
+3.  下载Canal到本地并且解压，并且 配置好数据库连接 登录名 密码 等
+4.  下载RocketMQ到本地并且解压 启动nasespace 启动broker要确保dataprocess监听的Topic存在
+5.  下载Redis到本地并且安装 
+6.  下载dataprocess也就是当前项目到本地，并且找到SpringBoot的运行类 点击运行，要确保ES
+7.
 **#### Instructions** 
 
 1.  xxxx

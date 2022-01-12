@@ -10,7 +10,7 @@ import javax.servlet.*;
 import java.io.IOException;
 
 @RestController
-public class LoginInfoApi implements Filter {
+public class LoginInfoApi {
 
     @Resource
     RestHighLevelClient restHighLevelClient;
@@ -24,8 +24,5 @@ public class LoginInfoApi implements Filter {
        return loginInfoDao.findAll();
     }
 
-    @Override
-    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse, FilterChain filterChain) throws IOException, ServletException {
 
-    }
 }
