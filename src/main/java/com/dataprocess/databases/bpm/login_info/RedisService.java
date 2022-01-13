@@ -20,6 +20,7 @@ public class RedisService extends CoreHandler {
     @Override
     public Object update(Object obj) {
         redisUtil.set("1","test1");
+        System.out.println("正在执行redis修改");
         return null;
     }
 

@@ -40,6 +40,7 @@ public class EsService extends CoreHandler {
 
     @Override
     public Object update(Object obj) {
+        //1当前过滤器 数据更新到ES
         List<Map<String,Object>> list=(List<Map<String,Object>>)obj;
         if(null!=list&&list.size()>0){
             List<LoginInfoEntity> entitys=new ArrayList<>();
@@ -54,6 +55,8 @@ public class EsService extends CoreHandler {
                 entitys.add(entity);
             }
             loginInfoDao.saveAll(entitys);
+            //下一个过滤器 去执行数据更新 Redis操作
+            System.out.println("正在执行es修改");
             getNext().update("111");
             return true;
         }

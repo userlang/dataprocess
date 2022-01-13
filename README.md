@@ -43,7 +43,7 @@
     com.dataprocess.databases ### 数据业务处理包 该包是专门为使用者提供的
 
     ### 该包下的第一个*包是数据库名称 第二个*包是数据表名称，使用者应 按照规范
-    ### 在当前表名包下创建过滤器类进行后续业务操作
+    ### 在当前表名包下创建过滤器类 实现CoreHandler约束 进行后续业务操作
     com.dataprocess.databases.*.*  
 
     ###demo案例 godnan包是MySql中godnan库，u_user_tracking包是godnan库下的u_user_tracking表 
@@ -73,7 +73,8 @@
 4.  下载Canal到本地并配置 https://www.cnblogs.com/langjunnan/articles/15798583.html
 5.  下载RocketMQ并配置 https://www.cnblogs.com/langjunnan/articles/15798518.html
 6.  下载Redis并启动 https://www.cnblogs.com/langjunnan/articles/15798670.html
-7.  下载dataprocess也就是当前项目到本地，并且找到SpringBoot的运行类 点击运行，
+7.  下载dataprocess也就是当前项目到本地，并且找到SpringBoot的运行类 点击运行
+8.   成功案例介绍:    https://www.cnblogs.com/langjunnan/articles/15799285.html
 
 **使用说明说** 
 
