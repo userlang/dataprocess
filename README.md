@@ -78,9 +78,13 @@
 
 **使用说明说** 
 
-1.  xxxx
-2.  xxxx
-3.  xxxx
+1.  在resources文件夹下 配置修改application.properties，application.yml两个文件的信息RocketMQ，Redis，Es配置
+2.  com.dataprocess.databases.*.*  第一个*包 换成你想要链接数据库的名称 第二个*包换成库下的表名，然后随便创建一个类
+该类需要继承 CoreHandler 类并且 该类要加上 @Component注解 由Spring容器管理 ，使用者可以重写 CoreHandler父类 下的 
+insert update delete 方法 实现自己的逻辑，只要实在该包下创建的类，会形成一条链条 执行 ，配合完成使用者想要实现的
+业务逻辑，
+3. es 相关的查询服务 可以在 com.dataprocess.es 下编写
+4. 找到DataProcessApplication类启动  确保项目能启动并且控制台不报错
 
 **贡献代码（欢迎您的加入）** 
 
