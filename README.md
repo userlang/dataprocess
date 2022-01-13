@@ -49,7 +49,7 @@
     ###demo案例 godnan包是MySql中godnan库，u_user_tracking包是godnan库下的u_user_tracking表 
     com.dataprocess.databases.godnan.u_user_tracking 
 
-    com.dataprocess.es.api ### es接口对外提供的查询
+    com.dataprocess.es.api ### es接口对外提供的查询， 附带复杂查询案例 
 
     com.dataprocess.es.dao ### es 到层面的操作
 
