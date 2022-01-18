@@ -3,7 +3,7 @@ package com.dataprocess.core.factory;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
 import com.dataprocess.core.common.CoreConst;
-import com.dataprocess.core.handler.CoreHandler;
+import com.dataprocess.core.template.CoreTemplate;
 import io.netty.util.internal.StringUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,7 +100,7 @@ public  class CoreExecuteFactory {
      */
     public static boolean execute( String database,String table, String type,Object data) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         try{
-            CoreHandler coreHandler=coreHandlerFactory.createCoreHandler(database,table);
+            CoreTemplate coreHandler=coreHandlerFactory.createCoreHandler(database,table);
             if(null==coreHandler){
                 // logger.info(" No implementation class found for "+database+"."+table);
                 return true;

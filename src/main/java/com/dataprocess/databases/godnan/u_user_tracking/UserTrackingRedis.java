@@ -1,15 +1,12 @@
 package com.dataprocess.databases.godnan.u_user_tracking;
 
-import com.dataprocess.core.handler.CoreHandler;
-import com.dataprocess.es.dao.UserTrackingDao;
+import com.dataprocess.core.template.CoreTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-
 @Component
-public class UserTrackingRedis extends CoreHandler {
+public class UserTrackingRedis extends CoreTemplate {
 
     private final static Logger logger = LoggerFactory.getLogger(UserTrackingRedis.class);
 
@@ -32,6 +29,21 @@ public class UserTrackingRedis extends CoreHandler {
 
         logger.info("用户追踪表 redis删除   别急作者正在开发中 下个版本加上...");
         return false;
+    }
+
+    @Override
+    public void insertRollBack(Object obj) {
+
+    }
+
+    @Override
+    public void updateRollBack(Object obj) {
+
+    }
+
+    @Override
+    public void deleteRollBack(Object obj) {
+
     }
 
 }
