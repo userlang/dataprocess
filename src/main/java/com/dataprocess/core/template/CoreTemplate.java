@@ -23,6 +23,13 @@ public abstract class CoreTemplate {
     // * 库下的 * 表删除的逻辑
     public abstract Object delete(Object obj);
 
+    // * 库下的 * 表插入的逻辑
+    public abstract void insertRollBack(Object obj);
 
+    // * 库下的 * 表修改的逻辑
+    public abstract void updateRollBack(Object obj);
+
+    // * 库下的 * 表删除的逻辑
+    public abstract void deleteRollBack(Object obj);
 
 }
