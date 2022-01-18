@@ -1,7 +1,6 @@
 package com.dataprocess.databases.bpm.login_info;
 
-import com.dataprocess.core.common.StringUtils;
-import com.dataprocess.core.handler.CoreHandler;
+import com.dataprocess.core.template.CoreTemplate;
 import com.dataprocess.es.dao.LoginInfoDao;
 import com.dataprocess.es.entity.LoginInfoEntity;
 import org.springframework.stereotype.Component;
@@ -12,7 +11,7 @@ import java.util.List;
 import java.util.Map;
 
 @Component
-public class LoginInfoEs extends CoreHandler {
+public class LoginInfoEs extends CoreTemplate {
 
     @Resource
     private LoginInfoDao loginInfoDao;

@@ -1,15 +1,12 @@
 package com.dataprocess.databases.godnan.u_user_tracking;
 
-import com.dataprocess.core.handler.CoreHandler;
-import com.dataprocess.es.dao.UserTrackingDao;
+import com.dataprocess.core.template.CoreTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
-import javax.annotation.Resource;
-
 @Component
-public class UserTrackingRedis extends CoreHandler {
+public class UserTrackingRedis extends CoreTemplate {
 
     private final static Logger logger = LoggerFactory.getLogger(UserTrackingRedis.class);
 

@@ -1,13 +1,13 @@
-package com.dataprocess.core.handler;
+package com.dataprocess.core.template;
 
-public abstract class CoreHandler {
+public abstract class CoreTemplate {
 
-    private CoreHandler successor;
+    private CoreTemplate successor;
 
-    public void setSuccessor(CoreHandler successor) {
+    public void setSuccessor(CoreTemplate successor) {
      this.successor = successor;
     }
-    protected CoreHandler getNext(){
+    protected CoreTemplate getNext(){
         if(null==successor){
             throw new RuntimeException(" getNext  There are no more executable filters  ");
         }
