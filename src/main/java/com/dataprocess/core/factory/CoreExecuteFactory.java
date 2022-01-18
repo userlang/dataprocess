@@ -60,7 +60,7 @@ public  class CoreExecuteFactory {
      * @throws NoSuchMethodException
      * @throws InvocationTargetException
      */
-    public static boolean execute(String message) throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+    public static boolean analysis(String message) throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
         JSONObject object= JSON.parseObject(message);
         boolean isDDl= (boolean) object.get(CoreConst.ISDDLL);
         if(!isDDl){
