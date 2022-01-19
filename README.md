@@ -34,12 +34,16 @@
     com.dataprocess.common ###  业务工具类 使用者可在该包下创建工具类
  
     com.dataprocess.core  ### 核心包 如果不是对项目结构，架构层面修改的代码  不建议修改该包下的代码
+    
+    com.dataprocess.core.adapter ### 适配器类得扩展目前并没有做适配
 
     com.dataprocess.core.common ### 核心工具类
 
-    com.dataprocess.core.factory ### 核心工厂
+    com.dataprocess.core.factory ### 核心工厂 策略处理 和 Spring托管
 
-    com.dataprocess.core.handler ### 核心处理模板
+    com.dataprocess.core.handler ### 核心托管代理处理
+    
+    com.dataprocess.core.template### 核心模板
 
     com.dataprocess.databases ### 数据业务处理包 该包是专门为使用者提供的
 
@@ -47,8 +51,8 @@
     ### 在当前表名包下创建过滤器类 实现CoreTemplate约束 进行后续业务操作
     com.dataprocess.databases.*.*  
 
-    ###demo案例 godnan包是MySql中godnan库，u_user_tracking包是godnan库下的u_user_tracking表 
-    com.dataprocess.databases.godnan.u_user_tracking 
+    ###demo案例 godnan包是MySql中bpm库，merchant包是bpm库下的merchant表 
+    com.dataprocess.databases.bpm.merchant
 
     com.dataprocess.es.api ### es接口对外提供的查询， 附带复杂查询案例 
 
@@ -80,10 +84,13 @@
 **使用说明说** 
 
 1.  在resources文件夹下 配置修改application.properties，application.yml两个文件的信息RocketMQ，Redis，Es配置
-2.  com.dataprocess.databases.*.*  第一个*包 换成你想要链接数据库的名称 第二个*包换成库下的表名，然后随便创建一个类
-该类需要继承 CoreTemplate 类并且 该类要加上 @Component注解 由Spring容器管理 ，使用者可以重写 CoreTemplate父类 下的 
-insert update delete 方法 实现自己的逻辑，只要实在该包下创建的类，会形成一条链条 执行 ，配合完成使用者想要实现的
-业务逻辑，
+2.  com.dataprocess.databases.*.*  第一个*包 换成你想要连接数据库的名称 第二个*包换成库下的表名，然后随便创建一个类
+该类需要继承 CoreTemplate 类并且实现该类得子方法 该类要加上 @Component注解 由Spring容器管理 ，使用者可以重写 CoreTemplate父类 下的 
+insert update delete 方法 实现自己的逻辑，还有对应得异常处理方法，如果某个实现类中出现了异常则系统默认调用对应得异常方法
+，只要是在该包下创建的类，会形成一条责任链来执行 ，配合完成使用者想要实现的业务逻辑，
+3.重点要注意得是 所有实现了CoreTemplate 抽象类得子类里面得属性 必须要又GET SET 方法，否则运行则会出现意想不到得错误，
+因为当前责任链链条在执行得同时，该链条上得所有类都是由Spring 和dataprocess 同时进行管理得，具体管理用到了浅Copy所以
+必须要给所有属性加上GET　SET方法
 3. es 相关的查询服务 可以在 com.dataprocess.es 下编写
 4. 找到DataProcessApplication类启动  确保项目能启动并且控制台不报错
 
