@@ -5,7 +5,7 @@ package com.dataprocess.core.adapter;
  * @Date 2022/1/19 12:33
  * @Version 1.0
  */
-public class Data {
+public class CoreData {
 
    private boolean isDll;
    private String database;
