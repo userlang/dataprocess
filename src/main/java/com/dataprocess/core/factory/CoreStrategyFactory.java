@@ -13,14 +13,12 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.*;
 
-
-
 /**
-
- *Resolve processing policy factory
-
+ * Resolve processing policy factory
+ * @Author junnan.lang
+ * @Date 2022/1/19 11:21
+ * @Version 1.0
  */
-
 public  class CoreStrategyFactory {
     private final static Logger logger = LoggerFactory.getLogger(CoreStrategyFactory.class);
 

@@ -1,6 +1,10 @@
 package com.dataprocess.core.common;
 
-
+/**
+ * @Author junnan.lang
+ * @Date 2022/1/19 11:21
+ * @Version 1.0
+ */
 public interface CoreConst {
     //////////////////////////////////////////////////////////
     /////////////////////mq输送的数据类型///////////////////////

@@ -1,5 +1,10 @@
 package com.dataprocess.core.template;
-
+/**
+ * Resolve processing policy factory
+ * @Author junnan.lang
+ * @Date 2022/1/19 11:21
+ * @Version 1.0
+ */
 public abstract class CoreTemplate {
 
     private CoreTemplate successor;
