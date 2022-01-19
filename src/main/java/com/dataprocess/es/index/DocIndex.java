@@ -4,13 +4,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * es 索引文档
+ * es 索引文档 索引名称必须小写
  */
 public interface DocIndex {
 
-    public  static  final  String LOGININFO="test1";
+    public  static  final  String LOGININFO="logininfo";
 
-    public  static  final  String USERTRACKING="test2";
+    public  static  final  String USERTRACKING="usertracking";
 
 
 
