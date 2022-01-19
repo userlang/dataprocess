@@ -1,20 +1,15 @@
 package com.dataprocess;
 
-import com.dataprocess.core.factory.CoreExecuteFactory;
-import com.dataprocess.redis.RedisUtil;
+import com.dataprocess.core.factory.CoreStrategyFactory;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-import javax.annotation.Resource;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @SpringBootTest
 class DataProcessApplicationTest {
 
-    private CoreExecuteFactory executeFactory= CoreExecuteFactory.getInstance();
+    private CoreStrategyFactory executeFactory= CoreStrategyFactory.getInstance();
 
     @Test
     void contextLoads() {
