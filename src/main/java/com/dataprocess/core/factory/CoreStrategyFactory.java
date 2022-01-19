@@ -1,8 +1,7 @@
 package com.dataprocess.core.factory;
 
-import com.alibaba.fastjson.JSON;
-import com.alibaba.fastjson.JSONObject;
 import com.dataprocess.core.common.CoreConst;
+import com.dataprocess.core.adapter.Data;
 import com.dataprocess.core.template.CoreTemplate;
 import io.netty.util.internal.StringUtil;
 import org.slf4j.Logger;
@@ -11,7 +10,6 @@ import org.slf4j.LoggerFactory;
 import javax.el.MethodNotFoundException;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.util.*;
 
 /**
  * Resolve processing policy factory
@@ -25,33 +23,7 @@ public  class CoreStrategyFactory {
 
     private CoreStrategyFactory(){}
 
-    private static volatile CoreStrategyFactory instance;
 
-
-    private  static Set<String> BLACKLIST=new HashSet<>();
-
-    static {
-        BLACKLIST.add("QUERY");
-    }
-    /**
-     *
-     * @return
-     */
-    public static CoreStrategyFactory getInstance() {
-
-        if (instance == null) {
-
-            synchronized (CoreStrategyFactory.class) {
-
-                if (instance == null) {
-
-                    instance = new CoreStrategyFactory();
-                }
-            }
-        }
-        return instance;
-    }
-    private static CoreHandlerFactory coreHandlerFactory=CoreHandlerFactory.getInstance();
 
     /**
      * 解析处理器
@@ -63,14 +35,14 @@ public  class CoreStrategyFactory {
      * @throws NoSuchMethodException
      * @throws InvocationTargetException
      */
-    public static boolean analysis(String message) throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
-        JSONObject object= JSON.parseObject(message);
-        boolean isDDl= (boolean) object.get(CoreConst.ISDDLL);
+    public static boolean analysis(Data data) throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
+
+        boolean isDDl= (boolean) data.getIsDll();
         if(!isDDl){
-            String database= (String) object.get(CoreConst.DATABASE);
-            String table = (String) object.get(CoreConst.TABLE);
-            String type=(String)object.get(CoreConst.TYPE);
-            if(BLACKLIST.contains(type)){
+            String database= data.getDatabase();
+            String table = data.getTable();
+            String type=data.getOptType();
+            if(CoreConst.QUERY.equals(type)){
                 return true;
             }
             if(StringUtil.isNullOrEmpty(database)){
@@ -79,12 +51,12 @@ public  class CoreStrategyFactory {
             if(StringUtil.isNullOrEmpty(table)){
                 throw  new NullPointerException(table);
             }
-            Object data=object.get(CoreConst.DATA);
+            Object dataObj=data.getData();
             if(null==data){
                 throw  new NullPointerException("current execute data is  null");
             }
 
-            return execute( database,table,type,data);
+            return execute( database,table,type,dataObj);
         }
 
     return true;
@@ -120,5 +92,27 @@ public  class CoreStrategyFactory {
         }
         return false;
     }
+    private static volatile CoreStrategyFactory instance;
 
+
+
+    /**
+     *
+     * @return
+     */
+    public static CoreStrategyFactory getInstance() {
+
+        if (instance == null) {
+
+            synchronized (CoreStrategyFactory.class) {
+
+                if (instance == null) {
+
+                    instance = new CoreStrategyFactory();
+                }
+            }
+        }
+        return instance;
+    }
+    private static CoreTrusteeshipFactory coreHandlerFactory= CoreTrusteeshipFactory.getInstance();
 }

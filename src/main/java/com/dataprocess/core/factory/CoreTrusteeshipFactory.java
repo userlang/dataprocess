@@ -16,32 +16,11 @@ import java.util.List;
  * @Date 2022/1/19 11:21
  * @Version 1.0
  */
-public class CoreHandlerFactory {
-    private final static Logger logger = LoggerFactory.getLogger(CoreHandlerFactory.class);
+public class CoreTrusteeshipFactory {
+    private final static Logger logger = LoggerFactory.getLogger(CoreTrusteeshipFactory.class);
 
-    private CoreHandlerFactory(){}
+    private CoreTrusteeshipFactory(){}
 
-    private static volatile CoreHandlerFactory instance;
-
-
-    /**
-     *
-     * @return
-     */
-    public static CoreHandlerFactory getInstance() {
-
-        if (instance == null) {
-
-            synchronized (CoreHandlerFactory.class) {
-
-                if (instance == null) {
-
-                    instance = new CoreHandlerFactory();
-                }
-            }
-        }
-        return instance;
-    }
     /**
      * 根据数据库和表创建核心工厂
      * @param dataBase
@@ -85,4 +64,25 @@ public class CoreHandlerFactory {
 
     }
 
+    private static volatile CoreTrusteeshipFactory instance;
+
+
+    /**
+     *
+     * @return
+     */
+    public static CoreTrusteeshipFactory getInstance() {
+
+        if (instance == null) {
+
+            synchronized (CoreTrusteeshipFactory.class) {
+
+                if (instance == null) {
+
+                    instance = new CoreTrusteeshipFactory();
+                }
+            }
+        }
+        return instance;
+    }
 }
