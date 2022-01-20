@@ -70,6 +70,11 @@
 **系统架构图** 
 
  ![](image/jiagou.png)
+ 
+**内部架构图** 
+
+ ![](image/yewujiagou.png)
+ 
 **系统安装依赖** 
 1.  相关的资源地址: 链接：https://pan.baidu.com/s/18V38e4h9_BncyqYu1yp2BA   提取码：1234
 2.  准备环境 必备条件本地应安装好jdk1.8 并且配置好环境变量
