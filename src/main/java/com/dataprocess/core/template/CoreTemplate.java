@@ -1,6 +1,6 @@
 package com.dataprocess.core.template;
 /**
- * Resolve processing policy factory
+ *  Template responsibility chain
  * @Author junnan.lang
  * @Date 2022/1/19 11:21
  * @Version 1.0
@@ -19,22 +19,22 @@ public abstract class CoreTemplate {
         return successor;
     }
 
-    // * 库下的 * 表插入的逻辑
+    // *  Logic of * table insertion under library
     public abstract Object insert(Object obj);
 
-    // * 库下的 * 表修改的逻辑
+    // *  Logic for modifying the * table under the library
     public abstract Object update(Object obj);
 
-    // * 库下的 * 表删除的逻辑
+    // *  Logic for deleting the * table under the library
     public abstract Object delete(Object obj);
 
-    // * 库下的 * 表插入的逻辑
+    // *  Exception logic of * table insertion under library
     public abstract void insertRollBack(Object obj);
 
-    // * 库下的 * 表修改的逻辑
+    // *  Exception logic for modification of * table under library
     public abstract void updateRollBack(Object obj);
 
-    // * 库下的 * 表删除的逻辑
+    // *  Exception logic for deleting the * table under the library
     public abstract void deleteRollBack(Object obj);
 
 }

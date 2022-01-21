@@ -24,17 +24,6 @@ public  class CoreStrategyFactory {
     private CoreStrategyFactory(){}
 
 
-
-    /**
-     * 解析处理器
-     * @param data
-     * @return
-     * @throws ClassNotFoundException
-     * @throws IllegalAccessException
-     * @throws InstantiationException
-     * @throws NoSuchMethodException
-     * @throws InvocationTargetException
-     */
     public static boolean analysis(CoreData data) throws ClassNotFoundException, IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException {
 
         boolean isDDl= (boolean) data.getIsDll();
@@ -62,17 +51,7 @@ public  class CoreStrategyFactory {
     return true;
     }
 
-    /**
-     * 策略处理器
-     * @param database
-     * @param table
-     * @param data
-     * @param type
-     * @return
-     * @throws NoSuchMethodException
-     * @throws InvocationTargetException
-     * @throws IllegalAccessException
-     */
+
     public static boolean execute( String database,String table, String type,Object data) throws NoSuchMethodException, InvocationTargetException, IllegalAccessException {
         try{
             CoreTemplate coreHandler=coreHandlerFactory.createCoreTemplate(database,table);
@@ -96,10 +75,7 @@ public  class CoreStrategyFactory {
 
 
 
-    /**
-     *
-     * @return
-     */
+
     public static CoreStrategyFactory getInstance() {
 
         if (instance == null) {
