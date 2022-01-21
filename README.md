@@ -97,7 +97,7 @@
 该类需要继承 CoreTemplate 类并且实现该类得子方法 该类要加上 @Component注解 由Spring容器管理 ，使用者可以重写 CoreTemplate父类 下的 
 insert update delete 方法 实现自己的逻辑，还有对应得异常处理方法，如果某个实现类中出现了异常则系统默认调用对应得异常方法
 ，只要是在该包下创建的类，会形成一条责任链来执行 ，配合完成使用者想要实现的业务逻辑。
-3. 重点要注意得是 所有实现了CoreTemplate 抽象类得子类里面得属性 必须要又GET SET 方法，否则运行则会出现意想不到得错误，
+3. 重点要注意得是 所有实现了CoreTemplate 抽象类得子类里面得属性 必须要有GET SET 方法，否则运行则会出现意想不到得错误，
 因为当前责任链链条在执行得同时，该链条上得所有类都是由Spring 和dataprocess 同时进行管理得，具体管理用到了浅Copy所以
 必须要给所有属性加上GET　SET方法
 4. es 相关的查询服务 可以在 com.dataprocess.es 下编写
