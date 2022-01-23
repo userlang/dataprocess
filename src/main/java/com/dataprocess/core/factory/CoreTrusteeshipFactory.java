@@ -3,7 +3,10 @@ package com.dataprocess.core.factory;
 import com.dataprocess.core.common.ClazzUtils;
 import com.dataprocess.core.common.CoreConst;
 import com.dataprocess.core.handler.CoreHandler;
-import com.dataprocess.core.template.CoreTemplate;
+import com.dataprocess.core.subject.CoreSubject;
+import com.dataprocess.core.subject.SubscribeSubject;
+import com.dataprocess.core.template.ChainTemplate;
+import com.dataprocess.core.template.ObserverTemplate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
@@ -23,34 +26,60 @@ public class CoreTrusteeshipFactory {
     private CoreTrusteeshipFactory(){}
 
 
-    public CoreTemplate createCoreTemplate(String dataBase, String table) throws ClassNotFoundException, NoSuchMethodException {
-        List<CoreTemplate> coreHandlers;
+    public List<Object> createTableListClass(String dataBase, String table) throws ClassNotFoundException, NoSuchMethodException {
         List<Object> objectList= ClazzUtils.getCalsss(
                 CoreConst.EXECUTE_PACKAGE_PREFIX+dataBase+"."+table);
+        return objectList;
+    }
+    public ChainTemplate  createChainTemplate(List<Object> objectList) throws ClassNotFoundException, NoSuchMethodException {
+        List<ChainTemplate> coreHandlers =new ArrayList<>();
+
         if(null!=objectList&&objectList.size()>0){
-            coreHandlers=new ArrayList<>();
             for (int x=0;x<objectList.size();x++){
-                if(objectList.get(x) instanceof  CoreTemplate){
-                    CoreTemplate proxy=(CoreTemplate) createProxyCoreHandler(objectList.get(x));
+                if(objectList.get(x) instanceof ChainTemplate){
+                    ChainTemplate proxy=(ChainTemplate) createProxyCoreHandler(objectList.get(x));
                     BeanUtils.copyProperties(objectList.get(x), proxy);
                     coreHandlers.add(proxy);
                 }
             }
-            if(null!=coreHandlers&&coreHandlers.size()>0){
-                for (int i=0;i<coreHandlers.size()-1;i++)
-                {
-                    int j=i+1;
-                    coreHandlers.get(i).setSuccessor(coreHandlers.get(j));
-
-                }
-                return coreHandlers.get(0);
-            }
+            return assembleChain(coreHandlers);
         }
         return null;
-
+    }
+    public CoreSubject createObserverTemplate(List<Object> objectList){
+        CoreSubject subject;
+        if(null!=objectList&&objectList.size()>0){
+            subject= new SubscribeSubject();
+            for (int x=0;x<objectList.size();x++){
+                if(objectList.get(x) instanceof ObserverTemplate){
+                    subject.attach((ObserverTemplate) objectList.get(x));
+                }
+            }
+            return subject;
+        }
+        return null;
     }
 
-    public Object createProxyCoreHandler(Object object){
+
+    /**
+     * Assembly responsibility chain
+     * @param chainTemplates
+     * @return
+     */
+    private ChainTemplate assembleChain(List<ChainTemplate> chainTemplates) {
+        if(null!=chainTemplates&&chainTemplates.size()>0){
+            for (int i=0;i<chainTemplates.size()-1;i++)
+            {
+                int j=i+1;
+                chainTemplates.get(i).setSuccessor(chainTemplates.get(j));
+
+            }
+            return chainTemplates.get(0);
+        }
+        return null;
+    }
+
+    private Object createProxyCoreHandler(Object object){
         Enhancer enhancer = new Enhancer();
         enhancer.setSuperclass(object.getClass());
         enhancer.setCallback(new CoreHandler());

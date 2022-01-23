@@ -16,7 +16,8 @@ public class Invocation {
 
     private MethodProxy methodProxy;
 
-    private Object[] args;
+    private Object[] argsProxy;
+    private Object args;
 
     public Object getTarget() {
         return target;
@@ -43,24 +44,28 @@ public class Invocation {
     }
 
     public Object[] getArgs() {
-        return args;
+        return argsProxy;
     }
 
     public void setArgs(Object[] args) {
-        this.args = args;
+        this.argsProxy = args;
     }
 
-    public Invocation(Object target, Method method, MethodProxy methodProxy, Object[] args) {
+    public Invocation(Object target, Method method, MethodProxy methodProxy, Object[] argsProxy) {
         this.target = target;
         this.method = method;
         this.methodProxy = methodProxy;
+        this.argsProxy = argsProxy;
+    }
+    public Invocation(Object target, Method method,  Object args) {
+        this.target = target;
+        this.method = method;
         this.args = args;
     }
-
-    public Object invoke() throws Throwable {
+    public Object invokeProxy() throws Throwable {
 
         try{
-          return  methodProxy.invokeSuper(target,args);
+          return  methodProxy.invokeSuper(target,argsProxy);
         }catch (Exception e){
             String methodName=this.method.getName()+ROLLBACK;
             Method rollBackMethod= null;
@@ -80,8 +85,30 @@ public class Invocation {
         }
         return null;
     }
+    public Object invoke() throws Throwable {
 
+        try{
+            return  method.invoke(target,args);
+        }catch (Exception e){
+            String methodName=this.method.getName()+ROLLBACK;
+            Method rollBackMethod= null;
+            try {
+                rollBackMethod = this.target.getClass().getMethod(methodName,Object.class);
+            } catch (NoSuchMethodException e1) {
+                e1.printStackTrace();
+            }
+            if(null!=rollBackMethod){
+                this.method=rollBackMethod;
+                try {
+                    method.invoke(target,args);
+                } catch (Throwable throwable) {
+                    throwable.printStackTrace();
+                }
+            }
+        }
+        return null;
+    }
 
-    private static final String ROLLBACK="RollBack";
+    public static final String ROLLBACK="RollBack";
 
 }

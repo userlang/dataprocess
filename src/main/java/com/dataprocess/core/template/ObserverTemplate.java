@@ -1,23 +1,7 @@
 package com.dataprocess.core.template;
-/**
- *  Template responsibility chain
- * @Author junnan.lang
- * @Date 2022/1/19 11:21
- * @Version 1.0
- */
-public abstract class CoreTemplate {
 
-    private CoreTemplate successor;
+public abstract class ObserverTemplate {
 
-    public void setSuccessor(CoreTemplate successor) {
-     this.successor = successor;
-    }
-    protected CoreTemplate getNext(){
-        if(null==successor){
-            throw new RuntimeException(" getNext  There are no more executable filters  ");
-        }
-        return successor;
-    }
 
     // *  Logic of * table insertion under library
     public abstract Object insert(Object obj);
@@ -36,5 +20,4 @@ public abstract class CoreTemplate {
 
     // *  Exception logic for deleting the * table under the library
     public abstract void deleteRollBack(Object obj);
-
 }
