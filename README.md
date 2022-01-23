@@ -12,15 +12,16 @@
     使用者只需要去监听MQ的消息队列即可，本次项目集成的是RocketMQ
    
    **dataprocess角色：** 
-        Mysql-》Canal-》RocketMQ-》dataproces处理{过滤器1处理ES 增 删 改 索引 回滚 异常--过滤器2处理 Redis 增 删 改
-    回滚 索引 异常...}
-    dataprocess主要充当着监听数据来源 适配数据源 解析数据 检验数据 托管数据 然后创建执行责任链，
-    责任链条是由使用者自己去定义的，只要编写的类实现了CoreTemplate模板并且是在com.dataprocess.databases.某个库包下的
-    表包下的所有实现类都会形成一条链，当前执行的链条是可以被dataprocess和Spring共同来管理的，没有执行的链条由Spring
-    自己来管理，所谓的当前执行链条就是监听到某个库中的某个表中的某一批或一条记录发生了变更，针对当前数据表的链条是会
-    被dataprocess来执行的，每个链条的实现类都对外开放了一些接口方法 例如:  添加 修改 删除 创建索引 异常捕获等操作，当某个
-    表发生了变化，就会以过滤链的形式给使用者提供了 添加/修改/删除 接口方法，使用者只需要 专注去做自己想要做的添加功能
-    删除功能  修改功能  异常记录功能 就可以了，另外dataproces也提供了缓存查询 和 ElasticSearch 复杂查询案例展示
+        Mysql-》Canal-》RocketMQ-》dataproces提供观察者模式和责任链模式，其中观察者模式自动订阅使用者按要求使用即可。
+    两种模式都提供{过滤器1处理ES 增 删 改 索引 回滚 异常--过滤器2处理 Redis 增 删 改 回滚 索引 异常...}
+    dataprocess主要充当着监听数据来源 适配数据源 解析数据 检验数据 托管数据 然后创建执行责任链或者订阅观察者模式，
+    两种模式其中一种就可以实现业务逻辑了,都是由使用者自己去定义的，只要编写的类实现了ChainTemplate责任链模板或者实现ObserverTemplate观察者
+    模板并且是在com.dataprocess.databases.某个库包下的表包下的所有实现类都会形成一条链或者都会被观察者通知到，当前执行的链条或观察者是可以被
+    dataprocess和Spring共同来管理的，没有执行的链条或观察者类由Spring自己来管理，所谓的当前执行链条或观察类就是监听到某个库中的某个表中的
+    某一批或一条记录发生了变更，针对当前数据表的链条或观察类是会被dataprocess来执行的，每个链条或观察者的实现类都对外开放了一些接口方法 
+    例如:  添加 修改 删除 创建索引 异常捕获等操作，当某个 表发生了变化，就会以过滤链的形式给使用者提供了 添加/修改/删除 接口方法，
+    使用者只需要 专注去做自己想要做的添加功能 删除功能  修改功能  异常记录功能 就可以了，另外dataproces也提供了缓存查询 和
+    ElasticSearch 复杂查询案例展示
     
  **项目涉及到的技术点：**  
   1. 基础环境 jdk1.8
@@ -46,8 +47,10 @@
     com.dataprocess.core.factory ### 核心工厂 策略处理 和 Spring托管
 
     com.dataprocess.core.handler ### 核心托管代理处理
-    
-    com.dataprocess.core.template### 核心模板
+
+    com.dataprocess.core.subject### 观察者订阅的主题     
+
+    com.dataprocess.core.template### 核心模板  责任链模板 观察者模板
 
     com.dataprocess.databases ### 数据业务处理包 该包是专门为使用者提供的
 
@@ -90,18 +93,20 @@
 7.  下载dataprocess也就是当前项目到本地，并且找到SpringBoot的运行类 点击运行
 8.   成功案例介绍:    https://www.cnblogs.com/langjunnan/articles/15799285.html
 
-**使用说明说** 
-
-1. 在resources文件夹下 配置修改application.properties，application.yml两个文件的信息RocketMQ，Redis，Es配置
-2. com.dataprocess.databases.*.*  第一个*包 换成你想要连接数据库的名称 第二个*包换成库下的表名，然后随便创建一个类
-该类需要继承 CoreTemplate 类并且实现该类得子方法 该类要加上 @Component注解 由Spring容器管理 ，使用者可以重写 CoreTemplate父类 下的 
-insert update delete 方法 实现自己的逻辑，还有对应得异常处理方法，如果某个实现类中出现了异常则系统默认调用对应得异常方法
-，只要是在该包下创建的类，会形成一条责任链来执行 ，配合完成使用者想要实现的业务逻辑。
-3. 重点要注意得是 所有实现了CoreTemplate 抽象类得子类里面得属性 必须要有GET SET 方法，否则运行则会出现意想不到得错误，
-因为当前责任链链条在执行得同时，该链条上得所有类都是由Spring 和dataprocess 同时进行管理得，具体管理用到了浅Copy所以
-必须要给所有属性加上GET　SET方法
-4. es 相关的查询服务 可以在 com.dataprocess.es 下编写
-5. 找到DataProcessApplication类启动  确保项目能启动并且控制台不报错
+**使用说明说**
+1. dataprocess 为使用者提供了两种方案：1 观察者模式方案 2责任链模式方案 使用者只需要实现一种方案完成业务即可
+2. 在resources文件夹下 配置修改application.properties，application.yml两个文件的信息RocketMQ，Redis，Es配置
+3. 创建包 com.dataprocess.databases.*.*  第一个*包 换成你想要连接数据库的名称 第二个*包换成库下的表名，
+4. 观察者模式方案：在com.dataprocess.databases.*.*包下随便创建一个类或多个类 实现ObserverTemplate抽象类，这些类就会自己去订阅当前
+表的动态，并且该类提供了 insert update delete 和 对应的回滚方法 insertRollBack updateRollBack deleteRollBack
+5. 责任链模式方案：在com.dataprocess.databases.*.*包下随便创建一个类或多个类 实现ChainTemplate抽象类，这些类就会被系统所管理，由使用者
+去决定是否要执行下一个类，伪代码如下：result=getNext().insert(obj)或者在做好某个类业务点包装下一个请求参数再去执行下一个类，该类提供了 
+insert update delete 和 对应的回滚方法 insertRollBack updateRollBack deleteRollBack
+6. 重点要注意得是 使用责任链模式方案 所有实现了ChainTemplate 抽象类得子类里面得属性 必须要有GET SET 方法，否则运行则会出现意想不到得错误，
+因为当前责任链链条在执行得同时，该链条上得所有类都是由Spring 和dataprocess 同时进行管理得，具体管理用到了浅Copy所以 必须要给所有属性加上
+GET　SET方法
+7 es 相关的查询服务 可以在 com.dataprocess.es 下编写
+8 找到DataProcessApplication类启动  确保项目能启动并且控制台不报错
 
 **贡献代码（欢迎您的加入）** 
 
