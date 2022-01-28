@@ -15,35 +15,35 @@ public class LoginInfoRedis extends ChainTemplate {
 
 
     @Override
-    public Object insert(Object obj) {
+    public Object insertData(Object obj) {
         System.out.println("正在执行 LoginInfoRedis添加");
         return true;
     }
 
     @Override
-    public Object update(Object obj) {
+    public Object updateData(Object obj) {
         System.out.println("正在执行 LoginInfoRedis修改");
         return true;
     }
 
     @Override
-    public Object delete(Object obj) {
+    public Object deleteData(Object obj) {
         System.out.println("正在执行 LoginInfoRedis删除");
         return true;
     }
 
     @Override
-    public void insertRollBack(Object obj) {
+    public void insertDataRollBack(Object obj) {
         System.out.println("正在执行 LoginInfoRedis 添加异常");
     }
 
     @Override
-    public void updateRollBack(Object obj) {
+    public void updateDataRollBack(Object obj) {
         System.out.println("正在执行 LoginInfoRedis 修改异常");
     }
 
     @Override
-    public void deleteRollBack(Object obj) {
+    public void deleteDataRollBack(Object obj) {
         System.out.println("正在执行 LoginInfoRedis 删除异常");
     }
 

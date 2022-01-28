@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 public class LoginInfoEs extends ChainTemplate {
 
     @Override
-    public Object insert(Object obj) {
+    public Object insertData(Object obj) {
         Object result=null;
         System.out.println("正在执行LoginInfoEs 得添加 开始");
         result=getNext().insert(obj);
@@ -16,7 +16,7 @@ public class LoginInfoEs extends ChainTemplate {
     }
 
     @Override
-    public Object update(Object obj) {
+    public Object updateData(Object obj) {
         Object result=null;
         System.out.println("正在执行LoginInfoEs 得修改 开始");
         result=getNext().insert(obj);
@@ -25,7 +25,7 @@ public class LoginInfoEs extends ChainTemplate {
     }
 
     @Override
-    public Object delete(Object obj) {
+    public Object deleteData(Object obj) {
         Object result=null;
         System.out.println("正在执行LoginInfoEs 得删除 开始");
         result=getNext().insert(obj);
@@ -34,17 +34,17 @@ public class LoginInfoEs extends ChainTemplate {
     }
 
     @Override
-    public void insertRollBack(Object obj) {
+    public void insertDataRollBack(Object obj) {
         System.out.println("正在执行 正在执行LoginInfoEs 得添加  异常");
     }
 
     @Override
-    public void updateRollBack(Object obj) {
+    public void updateDataRollBack(Object obj) {
         System.out.println("正在执行 正在执行LoginInfoEs 得修改  异常");
     }
 
     @Override
-    public void deleteRollBack(Object obj) {
+    public void deleteDataRollBack(Object obj) {
         System.out.println("正在执行 正在执行LoginInfoEs 得删除  异常");
     }
 }

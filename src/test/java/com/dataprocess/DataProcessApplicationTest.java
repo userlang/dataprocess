@@ -9,7 +9,6 @@ import java.lang.reflect.InvocationTargetException;
 @SpringBootTest
 class DataProcessApplicationTest {
 
-    private CoreStrategyFactory executeFactory= CoreStrategyFactory.getInstance();
 
     @Test
     void contextLoads() {
