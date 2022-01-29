@@ -12,16 +12,16 @@
     使用者只需要去监听MQ的消息队列即可，本次项目集成的是RocketMQ
    
    **dataprocess角色：** 
-        Mysql-》Canal-》RocketMQ-》dataproces提供观察者模式和责任链模式，其中观察者模式自动订阅使用者按要求使用即可。
-    两种模式都提供{过滤器1处理ES 增 删 改 索引 回滚 异常--过滤器2处理 Redis 增 删 改 回滚 索引 异常...}
-    dataprocess主要充当着监听数据来源 适配数据源 解析数据 检验数据 托管数据 然后创建执行责任链或者订阅观察者模式，
+        Mysql-》Canal-》RocketMQ-》dataproces提供观察者模式和责任链模式，其中观察者模式自动订阅数据，使用者按要求使用即可。
+    两种模式都对外提供  增 删 改 索引 回滚 异常捕获 前置拦截器 后置拦截器 等接口，其中拦截器功能默认不开启，使用者自己可以在配置文件中设置 
+    dataprocess主要充当着监听数据来源 适配数据源 解析数据 检验数据 托管代理本次执行的数据 然后创建执行责任链或者订阅观察者模式，
     两种模式其中一种就可以实现业务逻辑了,都是由使用者自己去定义的，只要编写的类实现了ChainTemplate责任链模板或者实现ObserverTemplate观察者
     模板并且是在com.dataprocess.databases.某个库包下的表包下的所有实现类都会形成一条链或者都会被观察者通知到，当前执行的链条或观察者是可以被
     dataprocess和Spring共同来管理的，没有执行的链条或观察者类由Spring自己来管理，所谓的当前执行链条或观察类就是监听到某个库中的某个表中的
     某一批或一条记录发生了变更，针对当前数据表的链条或观察类是会被dataprocess来执行的，每个链条或观察者的实现类都对外开放了一些接口方法 
-    例如:  添加 修改 删除 创建索引 异常捕获等操作，当某个 表发生了变化，就会以过滤链的形式给使用者提供了 添加/修改/删除 接口方法，
-    使用者只需要 专注去做自己想要做的添加功能 删除功能  修改功能  异常记录功能 就可以了，另外dataproces也提供了缓存查询 和
-    ElasticSearch 复杂查询案例展示
+    例如:  添加 修改 删除 创建索引 异常捕获 拦截器 等操作，当某个 表发生了变化，就会以过滤链或者观察者的形式给使用者提供了 添加/修改/删除 
+    异常捕获 拦截器 等接口方法，使用者只需要 专注去做自己想要做的添加功能 删除功能  修改功能  异常记录功能 就可以了，另外dataproces也提供了
+    缓存查询 和 ElasticSearch 复杂查询案例展示
     
  **项目涉及到的技术点：**  
   1. 基础环境 jdk1.8
@@ -48,6 +48,8 @@
 
     com.dataprocess.core.factory ### 核心工厂 策略处理 
 
+    com.dataprocess.core.interceptor ###  前置，后置核心拦截器
+
     com.dataprocess.core.handler ### 核心托管代理处理
 
     com.dataprocess.core.subject### 观察者订阅的主题     
@@ -72,6 +74,8 @@
     com.dataprocess.es.index  ### es 文档索引
     
     com.dataprocess.init ###初始化 es索引
+
+    com.dataprocess.interceptor ###给使用者提供的拦截器包 
 
     com.dataprocess.mq ### 监听rocketmq推送的消息
 
@@ -105,10 +109,12 @@ deleteDataRollBack
 5. 责任链模式方案：在com.dataprocess.databases.*.*包下随便创建一个类或多个类 实现ChainTemplate抽象类，这些类就会被系统所管理，由使用者
 去决定是否要执行下一个类，伪代码如下：result=getNext().insertData(obj)或者在做好某个类业务点包装下一个请求参数再去执行下一个类，该类提供了 
 insertData updateData deleteData 和 对应的回滚方法 insertDataRollBack updateDataRollBack deleteDataRollBack
-6. 重点要注意得是和dataprocess默认建造的是OrdinaryBuilder构建者，我们也为你准备了代理构建者ProxyBuilder如果你要修改源码使用代理构建者
-扩展自己的拦截器业务， 需要注意的是所有继承ChainTemplate,ObserverTemplate抽象类的实现类里面的属性 必须要有GET SET 方法，否则运行会出现
-意想不到得错误，因为当前由dataprocess代理，本次执行的所有类都是由Spring 和dataprocess 同时进行管理得，具体管理用到了浅Copy所以 必须要给
-所有属性加上 GET　SET方法
+6. 重点要注意得是和dataprocess默认建造的是OrdinaryBuilder构建者，我们也为你准备了代理构建者ProxyBuilder，使用代理构建者可以开启烂机器功能，
+拦截器提供了 前置拦截器ProxyBefore和后置拦截器ProxyAfter，使用者只需要编写实现类实现拦截器接口，就可以实现自己的业务功能，
+7. 是否使用或开启代理构建者可以在application.properties配置文件中进行配置，open.proxy=false默认不开启代理模式 拦截器功能也不会开启， 
+在开启代理模式需要注意的是所有继承ChainTemplate,ObserverTemplate抽象类的实现类里面的属性 必须要有GET SET 方法，否则运行会出现
+意想不到得错误，因为当前所有类由dataprocess代理，本次执行的所有类都是由Spring 和dataprocess 同时进行管理得，具体管理用到了浅Copy所以 
+必须要给所有属性加上 GET　SET方法
 7 es 相关的查询服务 可以在 com.dataprocess.es 下编写
 8 找到DataProcessApplication类启动  确保项目能启动并且控制台不报错
 
