@@ -31,9 +31,6 @@ public class OrdinaryBuilder extends CoreBuilder {
             subject= new SubscribeSubject();
             for (int x=0;x<objectList.size();x++){
                 if(objectList.get(x) instanceof ObserverTemplate){
-                  /*  ObserverTemplate proxy=(ObserverTemplate) createProxyCoreHandler(objectList.get(x));
-                    BeanUtils.copyProperties(objectList.get(x), proxy);
-                    subject.attach(proxy);*/
                     subject.attach((ObserverTemplate) objectList.get(x));
                 }
             }
@@ -49,9 +46,6 @@ public class OrdinaryBuilder extends CoreBuilder {
         if(null!=objectList&&objectList.size()>0){
             for (int x=0;x<objectList.size();x++){
                 if(objectList.get(x) instanceof ChainTemplate){
-//                    ChainTemplate proxy=(ChainTemplate) createProxyCoreHandler(objectList.get(x));
-//                    BeanUtils.copyProperties(objectList.get(x), proxy);
-//                    coreHandlers.add(proxy);
                     coreHandlers.add((ChainTemplate) objectList.get(x));
                 }
             }
