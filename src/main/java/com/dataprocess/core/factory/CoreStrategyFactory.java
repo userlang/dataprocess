@@ -63,35 +63,35 @@ public  class CoreStrategyFactory {
                 throw  new NullPointerException("current execute data is  null");
             }
 
-            return execute( database,table,type,dataObj);
+            return execute( data);
         }
 
     return true;
     }
 
-    public static boolean execute( String database,String table, String type,Object data) throws Throwable {
+        public static boolean execute( CoreData coreData) throws Throwable {
         try{
             CoreBuilder builder=null;
             if(Properties.isOPEN_PROXY){
-                 builder=new ProxyBuilder(database,table);
+                 builder=new ProxyBuilder(coreData.getDatabase(),coreData.getTable());
             }else {
-                 builder=new OrdinaryBuilder(database,table);
+                 builder=new OrdinaryBuilder(coreData.getDatabase(),coreData.getTable());
             }
             BuilderDirector builderDirector=new BuilderDirector(builder);
             CorePlan plan=builderDirector.build();
             CoreSubject subjectHandler =plan.getCoreSubject();
             ChainTemplate chainHandler= plan.getChainTemplate();
             if(null!=subjectHandler){
-                subjectHandler.notify(data,type);
+                subjectHandler.notify(coreData.getData(),coreData.getOptType());
             }
             if(null!=chainHandler){
 
-                Method method  = chainHandler.getClass().getMethod(type.toLowerCase(),Object.class);
+                Method method  = chainHandler.getClass().getMethod(coreData.getOptType().toLowerCase(),Object.class);
 
                 if(null==method){
                     throw new MethodNotFoundException("  The method of this "+chainHandler.getClass()+" cannot be found   ");
                 }
-                Invocation invocation=new Invocation(chainHandler,chainHandler.getClass().getMethod(type.toLowerCase(),Object.class),data);
+                Invocation invocation=new Invocation(chainHandler,chainHandler.getClass().getMethod(coreData.getOptType().toLowerCase(),Object.class),coreData.getData());
                 invocation.invoke();
 
             }
