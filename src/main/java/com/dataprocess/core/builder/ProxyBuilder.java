@@ -89,10 +89,10 @@ public class ProxyBuilder extends CoreBuilder {
         }
         return objectList;
     }
-    private Object createProxyCoreHandler(Object object){
+    private Object createProxyCoreHandler(Object proxyObj){
      try {
          Enhancer enhancer = new Enhancer();
-         enhancer.setSuperclass(object.getClass());
+         enhancer.setSuperclass(proxyObj.getClass());
          enhancer.setCallback(new CoreHandler(getProxyBefore(),getProxyAfter()));
          return enhancer.create();
      }catch (Exception e){
