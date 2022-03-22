@@ -12,14 +12,14 @@
     使用者只需要去监听MQ的消息队列即可，本次项目集成的是RocketMQ
    
    **dataprocess角色：** 
-        Mysql-》Canal-》RocketMQ-》dataproces提供观察者模式和责任链模式，其中观察者模式自动订阅数据，使用者按要求使用即可。
+        Mysql-》Canal-》RocketMQ-》dataproces提供监听器模式和责任链模式，其中监听器模式自动订阅数据，使用者按要求使用即可。
     两种模式都对外提供  增 删 改 索引 回滚 异常捕获 前置拦截器 后置拦截器 等接口，其中拦截器功能默认不开启，使用者自己可以在配置文件中设置 
-    dataprocess主要充当着监听数据来源 适配数据源 解析数据 检验数据 托管代理本次执行的数据 然后创建执行责任链或者订阅观察者模式，
-    两种模式其中一种就可以实现业务逻辑了,都是由使用者自己去定义的，只要编写的类实现了ChainTemplate责任链模板或者实现ObserverTemplate观察者
-    模板并且是在com.dataprocess.databases.某个库包下的表包下的所有实现类都会形成一条链或者都会被观察者通知到，当前执行的链条或观察者是可以被
-    dataprocess和Spring共同来管理的，没有执行的链条或观察者类由Spring自己来管理，所谓的当前执行链条或观察类就是监听到某个库中的某个表中的
-    某一批或一条记录发生了变更，针对当前数据表的链条或观察类是会被dataprocess来执行的，每个链条或观察者的实现类都对外开放了一些接口方法 
-    例如:  添加 修改 删除 创建索引 异常捕获 拦截器 等操作，当某个 表发生了变化，就会以过滤链或者观察者的形式给使用者提供了 添加/修改/删除 
+    dataprocess主要充当着监听数据来源 适配数据源 解析数据 检验数据 托管代理本次执行的数据 然后创建执行责任链或者订阅监听器模式，
+    两种模式其中一种就可以实现业务逻辑了,都是由使用者自己去定义的，只要编写的类实现了ChainTemplate责任链模板或者实现ObserverTemplate监听器
+    模板并且是在com.dataprocess.databases.某个库包下的表包下的所有实现类都会形成一条链或者都会被监听器通知到，当前执行的链条或监听器是可以被
+    dataprocess和Spring共同来管理的，没有执行的链条或监听器类由Spring自己来管理，所谓的当前执行链条或观察类就是监听到某个库中的某个表中的
+    某一批或一条记录发生了变更，针对当前数据表的链条或观察类是会被dataprocess来执行的，每个链条或监听器的实现类都对外开放了一些接口方法 
+    例如:  添加 修改 删除 创建索引 异常捕获 拦截器 等操作，当某个 表发生了变化，就会以过滤链或者监听器的形式给使用者提供了 添加/修改/删除 
     异常捕获 拦截器 等接口方法，使用者只需要 专注去做自己想要做的添加功能 删除功能  修改功能  异常记录功能 就可以了，另外dataproces也提供了
     缓存查询 和 ElasticSearch 复杂查询案例展示
     
@@ -52,9 +52,9 @@
 
     com.dataprocess.core.handler ### 核心托管代理处理
 
-    com.dataprocess.core.subject### 观察者订阅的主题     
+    com.dataprocess.core.subject### 监听器订阅的主题     
 
-    com.dataprocess.core.template### 核心模板  责任链模板 观察者模板
+    com.dataprocess.core.template### 核心模板  责任链模板 监听器 模板
 
     com.dataprocess.databases ### 数据业务处理包 该包是专门为使用者提供的
 
@@ -104,10 +104,10 @@
 8.   成功案例介绍:    https://www.cnblogs.com/langjunnan/articles/15799285.html
 
 **使用说明说**
-1. dataprocess 为使用者提供了两种方案：1 观察者模式方案 2责任链模式方案 使用者只需要实现一种方案完成业务即可
+1. dataprocess 为使用者提供了两种方案：1 监听器模式方案 2责任链模式方案 使用者只需要实现一种方案完成业务即可
 2. 在resources文件夹下 配置修改application.properties，application.yml两个文件的信息RocketMQ，Redis，Es配置
 3. 创建包 com.dataprocess.databases.*.*  第一个*包 换成你想要连接数据库的名称 第二个*包换成库下的表名，
-4. 观察者模式方案：在com.dataprocess.databases.*.*包下随便创建一个类或多个类 实现ObserverTemplate抽象类，这些类就会自己去订阅当前
+4. 监听器模式方案：在com.dataprocess.databases.*.*包下随便创建一个类或多个类 实现ObserverTemplate抽象类，这些类就会自己去订阅当前
 表的动态，并且该类提供了 insertData updateData deleteData 和 对应的回滚方法 insertDataRollBack updateDataRollBack 
 deleteDataRollBack
 5. 责任链模式方案：在com.dataprocess.databases.*.*包下随便创建一个类或多个类 实现ChainTemplate抽象类，这些类就会被系统所管理，由使用者
