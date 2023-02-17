@@ -1,6 +1,6 @@
 package com.dataprocess.databases.bpm.merchant;
 
-import com.dataprocess.core.template.ChainTemplate;
+import com.dataprocess.core.template.LinkedTemplate;
 import org.springframework.stereotype.Component;
 
 /**
@@ -9,7 +9,7 @@ import org.springframework.stereotype.Component;
  * @Version 1.0
  */
 @Component
-public class MerchantES extends ChainTemplate {
+public class MerchantES extends LinkedTemplate {
 
     @Override
     public Object insertData(Object obj) {

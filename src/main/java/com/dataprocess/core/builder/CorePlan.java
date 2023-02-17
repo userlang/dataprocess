@@ -1,21 +1,21 @@
 package com.dataprocess.core.builder;
 
 import com.dataprocess.core.subject.CoreSubject;
-import com.dataprocess.core.template.ChainTemplate;
+import com.dataprocess.core.template.LinkedTemplate;
 
 public class CorePlan {
 
     private CoreSubject coreSubject;
 
-    private ChainTemplate chainTemplate;
+    private LinkedTemplate linkedTemplate;
 
 
-    public ChainTemplate getChainTemplate() {
-        return chainTemplate;
+    public LinkedTemplate getChainTemplate() {
+        return linkedTemplate;
     }
 
-    public void setChainTemplate(ChainTemplate chainTemplate) {
-        this.chainTemplate = chainTemplate;
+    public void setChainTemplate(LinkedTemplate linkedTemplate) {
+        this.linkedTemplate = linkedTemplate;
     }
 
     public CoreSubject getCoreSubject() {

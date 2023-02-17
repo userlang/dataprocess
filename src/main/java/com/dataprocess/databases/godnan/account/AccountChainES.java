@@ -1,13 +1,13 @@
 package com.dataprocess.databases.godnan.account;
 
-import com.dataprocess.core.template.ChainTemplate;
+import com.dataprocess.core.template.LinkedTemplate;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
 import java.util.Map;
 
 @Component
-public class AccountChainES extends ChainTemplate {
+public class AccountChainES extends LinkedTemplate {
 
     @Override
     public Object update(Object obj) {

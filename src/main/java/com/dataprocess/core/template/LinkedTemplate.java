@@ -5,14 +5,14 @@ package com.dataprocess.core.template;
  * @Date 2022/1/19 11:21
  * @Version 1.0
  */
-public abstract class ChainTemplate {
+public abstract class LinkedTemplate {
 
-    private ChainTemplate successor;
+    private LinkedTemplate successor;
 
-    public void setSuccessor(ChainTemplate successor) {
+    public void setSuccessor(LinkedTemplate successor) {
      this.successor = successor;
     }
-    protected ChainTemplate getNext(){
+    protected LinkedTemplate getNext(){
         if(null==successor){
             throw new RuntimeException(" getNext  There are no more executable filters  ");
         }
