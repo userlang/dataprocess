@@ -23,7 +23,7 @@ public class OrdinaryBuilder extends CoreBuilder {
     }
 
     @Override
-    public void buildObserverTemplate() throws ClassNotFoundException, NoSuchMethodException {
+    public void buildListenerTemplate() throws ClassNotFoundException, NoSuchMethodException {
         CoreSubject subject;
         List<Object> objectList=createTableListClass();
 
