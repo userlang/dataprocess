@@ -6,17 +6,17 @@ import com.dataprocess.core.template.ListenerTemplate;
 import java.util.ArrayList;
 import java.util.List;
 
-public class SubscribeSubject implements  CoreSubject{
+public class DataProcessRequestAware implements DataProcessContext {
     private List<ListenerTemplate> listenerTemplate=new ArrayList<>();
 
 
 
-    public void attach(ListenerTemplate obServer){
+    public void addListener(ListenerTemplate obServer){
         listenerTemplate.add( obServer);
 
     }
 
-    public void detach(ListenerTemplate obServer){
+    public void delListener(ListenerTemplate obServer){
         listenerTemplate.remove(obServer);
     }
 

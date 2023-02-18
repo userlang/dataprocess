@@ -4,7 +4,7 @@ import com.dataprocess.core.template.ListenerTemplate;
 import org.springframework.stereotype.Component;
 
 @Component
-public class AccountObserverRedis extends ListenerTemplate {
+public class AccountListenerRedis extends ListenerTemplate {
     @Override
     public Object insertData(Object obj) {
 

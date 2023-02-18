@@ -2,8 +2,8 @@ package com.dataprocess.core.builder;
 
 import com.dataprocess.core.common.ClazzUtils;
 import com.dataprocess.core.common.CoreConst;
-import com.dataprocess.core.subject.CoreSubject;
-import com.dataprocess.core.subject.SubscribeSubject;
+import com.dataprocess.core.subject.DataProcessContext;
+import com.dataprocess.core.subject.DataProcessRequestAware;
 import com.dataprocess.core.template.LinkedTemplate;
 import com.dataprocess.core.template.ListenerTemplate;
 
@@ -24,17 +24,17 @@ public class OrdinaryBuilder extends CoreBuilder {
 
     @Override
     public void buildListenerTemplate() throws ClassNotFoundException, NoSuchMethodException {
-        CoreSubject subject;
+        DataProcessContext subject;
         List<Object> objectList=createTableListClass();
 
         if(null!=objectList&&objectList.size()>0){
-            subject= new SubscribeSubject();
+            subject= new DataProcessRequestAware();
             for (int x=0;x<objectList.size();x++){
                 if(objectList.get(x) instanceof ListenerTemplate){
-                    subject.attach((ListenerTemplate) objectList.get(x));
+                    subject.addListener((ListenerTemplate) objectList.get(x));
                 }
             }
-            super.plan.setCoreSubject(subject);
+            super.plan.setDataProcessListener(subject);
         }
 
     }
@@ -49,7 +49,7 @@ public class OrdinaryBuilder extends CoreBuilder {
                     coreHandlers.add((LinkedTemplate) objectList.get(x));
                 }
             }
-             super.plan.setChainTemplate(assembleChain(coreHandlers));
+             super.plan.setLinkedTemplate(assembleChain(coreHandlers));
         }
 
     }
