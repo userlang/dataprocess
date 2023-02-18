@@ -6,10 +6,10 @@ import com.dataprocess.core.common.SpringUtils;
 import com.dataprocess.core.handler.CoreHandler;
 import com.dataprocess.core.interceptor.ProxyAfter;
 import com.dataprocess.core.interceptor.ProxyBefore;
-import com.dataprocess.core.listener.DataProcessContext;
-import com.dataprocess.core.listener.DataProcessRequestAware;
+import com.dataprocess.core.listener.DataProcessListener;
+import com.dataprocess.core.listener.DataProcessListeners;
 import com.dataprocess.core.template.LinkedTemplate;
-import com.dataprocess.core.template.ListenerTemplate;
+import com.dataprocess.core.template.EventTemplateListener;
 import org.springframework.beans.BeanUtils;
 import org.springframework.cglib.proxy.Enhancer;
 
@@ -29,14 +29,14 @@ public class ProxyBuilder extends CoreBuilder {
 
     @Override
     public void buildListenerTemplate() throws ClassNotFoundException, NoSuchMethodException {
-        DataProcessContext listener;
+        DataProcessListener listener;
         List<Object> objectList=createTableListClass();
 
         if(null!=objectList&&objectList.size()>0){
-            listener= new DataProcessRequestAware();
+            listener= new DataProcessListeners();
             for (int x=0;x<objectList.size();x++){
-                if(objectList.get(x) instanceof ListenerTemplate){
-                    ListenerTemplate proxy=(ListenerTemplate) createProxyCoreHandler(objectList.get(x));
+                if(objectList.get(x) instanceof EventTemplateListener){
+                    EventTemplateListener proxy=(EventTemplateListener) createProxyCoreHandler(objectList.get(x));
                     BeanUtils.copyProperties(objectList.get(x), proxy);
                     listener.addListener(proxy);
 
