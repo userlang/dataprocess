@@ -7,7 +7,7 @@ import com.dataprocess.core.common.CoreConst;
 import com.dataprocess.core.adapter.CoreData;
 import com.dataprocess.core.common.Properties;
 import com.dataprocess.core.handler.Invocation;
-import com.dataprocess.core.subject.DataProcessContext;
+import com.dataprocess.core.listener.DataProcessContext;
 import com.dataprocess.core.template.LinkedTemplate;
 import io.netty.util.internal.StringUtil;
 import org.slf4j.Logger;

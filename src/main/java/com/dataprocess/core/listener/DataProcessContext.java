@@ -1,4 +1,4 @@
-package com.dataprocess.core.subject;
+package com.dataprocess.core.listener;
 
 import com.dataprocess.core.template.ListenerTemplate;
 

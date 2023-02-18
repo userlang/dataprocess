@@ -52,7 +52,7 @@
 
     com.dataprocess.core.handler ### 核心托管代理处理
 
-    com.dataprocess.core.subject### 监听器订阅的主题     
+    com.dataprocess.core.listener### 监听器订阅的主题     
 
     com.dataprocess.core.template### 核心模板  责任链模板 监听器 模板
 
