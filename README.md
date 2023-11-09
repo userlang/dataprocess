@@ -120,6 +120,7 @@ com.dataprocess.init              # 初始化 ES 索引
 com.dataprocess.interceptor       # 面向使用者提供的拦截器包
 com.dataprocess.mq                # 监听 RocketMQ 推送的消息
 com.dataprocess.redis             # Redis 配置相关信息
+```
 **系统架构图1** 
 
  ![](image/jiagou.png)
