@@ -120,3 +120,60 @@ com.dataprocess.init              # 初始化 ES 索引
 com.dataprocess.interceptor       # 面向使用者提供的拦截器包
 com.dataprocess.mq                # 监听 RocketMQ 推送的消息
 com.dataprocess.redis             # Redis 配置相关信息
+**系统架构图1** 
+
+ ![](image/jiagou.png)
+ 
+**系统架构图2** 
+
+ ![](image/yewujiagou.png)
+
+**内部依赖图**
+
+ ![](image/neibuzhixingguocheng.png)
+
+**系统安装依赖** 
+1.  相关的资源地址: 链接：https://pan.baidu.com/s/18V38e4h9_BncyqYu1yp2BA   提取码：1234
+2.  准备环境 必备条件本地应安装好jdk1.8 并且配置好环境变量
+3.  以下安装链接是我个人博客园提供，描述比较简单，不保证您也能这么畅通，相信你也能遇到问题解决问题
+3.  下载ElasticSearch并配置 https://www.cnblogs.com/langjunnan/articles/15798379.html
+4.  下载Canal到本地并配置 https://www.cnblogs.com/langjunnan/articles/15798583.html
+5.  下载RocketMQ并配置 https://www.cnblogs.com/langjunnan/articles/15798518.html
+6.  下载Redis并启动 https://www.cnblogs.com/langjunnan/articles/15798670.html
+7.  下载dataprocess也就是当前项目到本地，并且找到SpringBoot的运行类 点击运行
+8.   成功案例介绍:    https://www.cnblogs.com/langjunnan/articles/15799285.html
+
+**使用说明说**
+1. dataprocess 为使用者提供了两种方案：1 监听器模式方案 2责任链模式方案 使用者只需要实现一种方案完成业务即可
+2. 在resources文件夹下 配置修改application.properties，application.yml两个文件的信息RocketMQ，Redis，Es配置
+3. 创建包 com.dataprocess.databases.*.*  第一个*包 换成你想要连接数据库的名称 第二个*包换成库下的表名，
+4. 监听器模式方案：在com.dataprocess.databases.*.*包下随便创建一个类或多个类 实现ObserverTemplate抽象类，这些类就会自己去订阅当前
+表的动态，并且该类提供了 insertData updateData deleteData 和 对应的回滚方法 insertDataRollBack updateDataRollBack 
+deleteDataRollBack
+5. 责任链模式方案：在com.dataprocess.databases.*.*包下随便创建一个类或多个类 实现ChainTemplate抽象类，这些类就会被系统所管理，由使用者
+去决定是否要执行下一个类，伪代码如下：result=getNext().insertData(obj)或者在做好某个类业务点包装下一个请求参数再去执行下一个类，该类提供了 
+insertData updateData deleteData 和 对应的回滚方法 insertDataRollBack updateDataRollBack deleteDataRollBack
+6. 重点要注意得是和dataprocess默认建造的是OrdinaryBuilder构建者，我们也为你准备了代理构建者ProxyBuilder，使用代理构建者可以开启烂机器功能，
+拦截器提供了 前置拦截器ProxyBefore和后置拦截器ProxyAfter，使用者只需要编写实现类实现拦截器接口，就可以实现自己的业务功能，
+7. 是否使用或开启代理构建者可以在application.properties配置文件中进行配置，open.proxy=false默认不开启代理模式 拦截器功能也不会开启， 
+在开启代理模式需要注意的是所有继承ChainTemplate,ObserverTemplate抽象类的实现类里面的属性 必须要有GET SET 方法，否则运行会出现
+意想不到得错误，因为当前所有类由dataprocess代理，本次执行的所有类都是由Spring 和dataprocess 同时进行管理得，具体管理用到了浅Copy所以 
+必须要给所有属性加上 GET　SET方法
+7 es 相关的查询服务 可以在 com.dataprocess.es 下编写
+8 找到DataProcessApplication类启动  确保项目能启动并且控制台不报错
+
+**贡献代码（欢迎您的加入）** 
+
+如果你有兴趣参与项目开发，请联系我个人邮箱: 1419052183@qq.com   编码不易 如果觉得对您有帮助请点一下Star 
+同时 也接受您宝贵的建议  接受批评   谢谢！
+
+**交流社区群** 
+
+![](image/jiaoliu.png)
+ 
+ 
+
+
+maven 快速接入请阅读
+https://gitee.com/lang_junnan/dataprocess-spring-boot-starter
+
