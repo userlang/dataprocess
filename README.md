@@ -1,85 +1,126 @@
- **dataprocess简介** 
- 
-   **项目初衷：** 
-        随着业务系统的不断迭代，数据库的数据量也随着逐渐增大，就导致业务系统日常运行情况下很多接口查询请求缓慢，
-     甚至读取超时 ,为了整体优化项目，提高系统性能 希望在系统中对于部分业务充分利用缓存操作或使用ElasticSearch
-     搜索引擎来高效率的查询 那么问题来了，数据如何同步到ES，Redis或其他的容器中呢
+# 🗃️ DataProcess
 
-   **数据同步：** 
-        既然是搜索业务，读取缓存 那么对数据的实时性要求一定很高，所以这里我们使用 阿里巴巴开源的Canal让它去监听
-    我们关系型数据库的主库例如 MySql-Master，实时读取数据库操作日志的变更，Canal就相当于关系型数据库的从库Slave，
-    Canal经过很多次迭代已经很成熟了，Canal自身又对RocketMq和kafka做了集成 可以把数据库订阅的日志直接输送到我们MQ当中，
-    使用者只需要去监听MQ的消息队列即可，本次项目集成的是RocketMQ
-   
-   **dataprocess角色：** 
-        Mysql-》Canal-》RocketMQ-》dataproces提供监听器模式和责任链模式，其中监听器模式自动订阅数据，使用者按要求使用即可。
-    两种模式都对外提供  增 删 改 索引 回滚 异常捕获 前置拦截器 后置拦截器 等接口，其中拦截器功能默认不开启，使用者自己可以在配置文件中设置 
-    dataprocess主要充当着监听数据来源 适配数据源 解析数据 检验数据 托管代理本次执行的数据 然后创建执行责任链或者订阅监听器模式，
-    两种模式其中一种就可以实现业务逻辑了,都是由使用者自己去定义的，只要编写的类实现了ChainTemplate责任链模板或者实现ObserverTemplate监听器
-    模板并且是在com.dataprocess.databases.某个库包下的表包下的所有实现类都会形成一条链或者都会被监听器通知到，当前执行的链条或监听器是可以被
-    dataprocess和Spring共同来管理的，没有执行的链条或监听器类由Spring自己来管理，所谓的当前执行链条或观察类就是监听到某个库中的某个表中的
-    某一批或一条记录发生了变更，针对当前数据表的链条或观察类是会被dataprocess来执行的，每个链条或监听器的实现类都对外开放了一些接口方法 
-    例如:  添加 修改 删除 创建索引 异常捕获 拦截器 等操作，当某个 表发生了变化，就会以过滤链或者监听器的形式给使用者提供了 添加/修改/删除 
-    异常捕获 拦截器 等接口方法，使用者只需要 专注去做自己想要做的添加功能 删除功能  修改功能  异常记录功能 就可以了，另外dataproces也提供了
-    缓存查询 和 ElasticSearch 复杂查询案例展示
-    
- **项目涉及到的技术点：**  
-  1. 基础环境 jdk1.8
-  2. MySQL 5.5
-  3. Canal.deployer-1.1.5  
-  4. RocketMQ-all-4.3.0-bin-release
-  5. ElasticSearch-7.16.2-windows-x86_64     
-  6. Redis-x64-5.0.14
-  7. SpringBoot2.6 集成ElasticSearch & Redis做CRUD
-  8. SpringBoot2.6 集成ElasticSearch 复杂查询案例
+> 基于 **SpringBoot 2.6** 的数据库变更同步中间件：监听 MySQL 变更 → 经 Canal + RocketMQ 投递 → 通过**责任链 / 监听器**两种模式处理数据，同步到 **Redis 缓存**与 **ElasticSearch** 搜索引擎，提升业务查询性能。
 
- 
-**系统结构**
-    
-    com.dataprocess.common ###  业务工具类 使用者可在该包下创建工具类
- 
-    com.dataprocess.core  ### 核心包 如果不是对项目结构，架构层面修改的代码  不建议修改该包下的代码
-    
-    com.dataprocess.core.adapter ### 适配器类得扩展目前并没有做适配
+## ✨ 项目初衷
 
-    com.dataprocess.core.builder ### 方案建造者
+随着业务系统不断迭代，数据库数据量持续增大，日常运行中不少接口查询缓慢，甚至读取超时。为整体优化项目、提高系统性能，希望在系统中对部分业务充分利用**缓存**或 **ElasticSearch 搜索引擎**实现高效查询。
 
-    com.dataprocess.core.common ### 核心工具类
+由此引出一个核心问题：**数据如何实时同步到 ES、Redis 或其他容器中？**
 
-    com.dataprocess.core.factory ### 核心工厂 策略处理 
+`dataprocess` 帮助你实时计算数据报表、充分利用计算能力，解决企业项目中常见的一部分数据同步与查询疑难场景。该架构在合理使用下，天然规避了 **Redis 缓存雪崩、缓存穿透**等问题，具体效果取决于使用方式。
 
-    com.dataprocess.core.interceptor ###  前置，后置核心拦截器
+## 🔄 数据同步链路
 
-    com.dataprocess.core.handler ### 核心托管代理处理
+搜索业务、缓存读取对数据实时性要求很高，因此本项目采用阿里开源的 **Canal** 监听关系型数据库主库（如 `MySQL-Master`），实时读取数据库操作日志变更。Canal 相当于关系型数据库的从库（Slave），经过多次迭代已非常成熟。
 
-    com.dataprocess.core.listener### 监听器订阅的主题     
+Canal 自身集成了 **RocketMQ** 与 **Kafka**，可将订阅的数据库日志直接投递到 MQ，使用者只需监听 MQ 消息队列即可。**本项目集成的是 RocketMQ。**
 
-    com.dataprocess.core.template### 核心模板  责任链模板 监听器 模板
 
-    com.dataprocess.databases ### 数据业务处理包 该包是专门为使用者提供的
+## 🧩 DataProcess 角色
 
-    ### 该包下的第一个*包是数据库名称 第二个*包是数据表名称，使用者应 按照规范
-    ### 在当前表名包下创建过滤器类 实现CoreTemplate约束 进行后续业务操作
-    com.dataprocess.databases.*.*  
+`DataProcess` 主要负责：**监听数据来源 → 适配数据源 → 解析数据 → 校验数据 → 托管代理本次执行的数据**，随后创建执行责任链，或订阅监听器模式。两种模式任选其一即可实现业务逻辑，由使用者自行定义。
 
-    ###demo案例 godnan包是MySql中bpm库，merchant包是bpm库下的merchant表 
-    com.dataprocess.databases.bpm.merchant
+### 两种扩展模板
 
-    com.dataprocess.es.api ### es接口对外提供的查询， 附带复杂查询案例 
+| 模式 | 实现模板 | 适用 |
+|---|---|---|
+| 🔗 **责任链模式** | `ChainTemplate` | 按处理过程选择加工对象，可动态决定是否执行下一个处理器 |
+| 👂 **监听器（观察者）模式** | `ObserverTemplate` | 每次变更都必须通知到全部处理器 |
 
-    com.dataprocess.es.dao ### es 到层面的操作
+### 对外开放的接口能力
 
-    com.dataprocess.es.entity ### es 涉及到实体 也叫文档
-    
-    com.dataprocess.es.index  ### es 文档索引
-    
-    com.dataprocess.init ###初始化 es索引
+两种模式均对外提供以下能力：
 
-    com.dataprocess.interceptor ###给使用者提供的拦截器包 
+- ➕ 新增（`insertData`）/ ✏️ 修改（`updateData`）/ ❌ 删除（`deleteData`）
+- 🔁 对应回滚方法：`insertDataRollBack`、`updateDataRollBack`、`deleteDataRollBack`
+- 🔍 创建索引、⚠️ 异常捕获
+- 🛡️ 前置拦截器、后置拦截器（**默认不开启**，可在配置文件中自行设置）
 
-    com.dataprocess.mq ### 监听rocketmq推送的消息
+### 包扫描与管理机制
 
-    com.dataprocess.redis  ###redis 配置相关信息
+- 只要实现了 `ChainTemplate` 责任链模板，或实现了 `ObserverTemplate` 监听器模板，且位于 `com.dataprocess.databases.某个库包.某个表包` 下，对应实现类就会自动形成一条链，或被监听器通知到。
+- 当前执行的链条 / 监听器由 **DataProcess 与 Spring 共同管理**；未执行的链条 / 监听器类由 Spring 自身管理。
+- 所谓"当前执行链条 / 观察类"：监听到某个库、某张表中的某一批或一条记录发生变更时，针对当前数据表的链条 / 观察类会被 DataProcess 执行。
+- 每个链条 / 监听器实现类都开放了新增、修改、删除、异常捕获、拦截器等接口。使用者只需专注实现自己关心的新增、删除、修改、异常记录等业务功能。
+- 此外，DataProcess 还提供了**缓存查询**与 **ElasticSearch 复杂查询**案例展示。
+
+## 🧠 内部设计模式
+
+DataProcess 在架构层面系统运用了多种经典设计模式，把"数据监听 → 适配 → 解析 → 校验 → 执行 → 回滚"的流程拆成可插拔、可扩展的独立单元，使用者只需聚焦业务处理器，无需改动核心流程。
+
+| 设计模式 | 项目内落地体现 | 对应包 / 模板 |
+|---|---|---|
+| 🔗 **责任链模式** | 处理器沿链条依次执行，可动态决定是否调用下一个处理器，并支持每一步回滚 | `core.handler`、`ChainTemplate` |
+| 👂 **观察者（监听器）模式** | 表数据变更后自动订阅并通知全部监听器，各自独立处理 | `core.subject`、`ObserverTemplate` |
+| 📐 **模板方法模式** | 抽象模板固定处理骨架（新增 / 修改 / 删除 / 回滚），具体步骤由子类实现 | `core.template` |
+| 🏗️ **建造者模式** | 通过不同 Builder 组装执行链路，区分普通模式与代理模式 | `core.builder`：`OrdinaryBuilder` / `ProxyBuilder` |
+| 🏭 **工厂模式** | 统一创建处理器、链条与监听器实例，屏蔽对象构造细节 | `core.factory` |
+| 🧮 **策略模式** | 按数据类型 / 处理场景选择对应处理策略 | `core.factory`（策略处理） |
+| 🔌 **适配器模式** | 预留数据源适配器扩展位，适配不同来源的数据结构 | `core.adapter`（预留扩展） |
+| 🛡️ **代理模式** | 代理构建者托管执行类，统一包裹前置 / 后置拦截与生命周期管理 | `ProxyBuilder`、`core.interceptor` |
+| 🚧 **拦截器思想** | 前置拦截器 `ProxyBefore`、后置拦截器 `ProxyAfter`，在业务执行前后插入校验与增强逻辑 | `core.interceptor`、`interceptor` |
+| 🔁 **补偿 / 回滚思想** | 每个写操作都对应 RollBack 方法，失败时按链 / 监听器逆向补偿 | 各模板的 `*RollBack` 方法 |
+
+> 上述模式相互配合：**模板方法**定义处理骨架，**责任链 / 观察者**组织执行顺序，**工厂 + 策略**选择实现，**建造者**装配整体结构，**代理 + 拦截器**统一增强，**适配器**预留扩展，**回滚**保障失败补偿。
+
+### 模式如何支撑业务扩展
+
+- 新增一张表的处理逻辑：只需在 `databases.库名.表名` 包下实现对应模板类，框架自动纳入链条 / 监听器；
+- 新增一种处理策略：在工厂 / 策略位扩展即可，不改动既有处理器；
+- 统一加前置校验或后置记录：通过代理拦截器统一挂载，无需侵入每个业务类；
+- 执行失败需要撤销：调用对应 `RollBack` 方法完成补偿。
+
+
+## 🎯 两种模式如何选择
+
+- **责任链方式**：如果你的需求更注重**过程**、需要按环节选择加工对象，推荐使用责任链，可根据处理需求动态判断是否执行下一个处理器。
+- **观察者方式**：如果每次变更都**必须通知到全部处理器**，观察者（监听器）模式是更好的选择。
+
+## 🛠️ 技术栈
+
+| 类别 | 版本 / 技术 |
+|---|---|
+| ☕ JDK | 1.8 |
+| 🐬 MySQL | 5.5 |
+| 🛰️ Canal | deployer-1.1.5 |
+| 📨 RocketMQ | all-4.3.0-bin-release |
+| 🔍 ElasticSearch | 7.16.2（windows-x86_64） |
+| 🧱 Redis | x64-5.0.14 |
+| 🌱 SpringBoot | 2.6，集成 ES & Redis 做 CRUD |
+| 🔎 ES 复杂查询 | SpringBoot 2.6 集成 ElasticSearch 复杂查询案例 |
+
+## 📁 包结构
+
+```text
+com.dataprocess.common            # 业务工具类，使用者可在该包下创建工具类
+
+com.dataprocess.core              # 核心包，非架构层面修改不建议改动
+├── adapter                       # 适配器类扩展（目前暂未做适配）
+├── builder                       # 方案建造者
+├── common                        # 核心工具类
+├── factory                       # 核心工厂 / 策略处理
+├── interceptor                   # 前置、后置核心拦截器
+├── handler                       # 核心托管代理处理
+├── subject                       # 监听器订阅的主题
+└── template                      # 核心模板：责任链模板、监听器模板
+
+com.dataprocess.databases         # 数据业务处理包，专门面向使用者开放
+└── *.*                           # 第一个 * = 数据库名称，第二个 * = 数据表名称
+                                  # 按规范在表名包下创建过滤器类，实现模板约束后进行业务操作
+    └── bpm.merchant              # Demo：godnan 包对应 MySQL 中 bpm 库，merchant 为 bpm 库下的表
+
+com.dataprocess.es
+├── api                           # ES 对外查询接口，附带复杂查询案例
+├── dao                           # ES 数据层操作
+├── entity                       # ES 实体（文档）
+└── index                         # ES 文档索引
+
+com.dataprocess.init              # 初始化 ES 索引
+com.dataprocess.interceptor       # 面向使用者提供的拦截器包
+com.dataprocess.mq                # 监听 RocketMQ 推送的消息
+com.dataprocess.redis             # Redis 配置相关信息
+```
 **系统架构图1** 
 
  ![](image/jiagou.png)
@@ -136,5 +177,4 @@ insertData updateData deleteData 和 对应的回滚方法 insertDataRollBack up
 
 maven 快速接入请阅读
 https://gitee.com/lang_junnan/dataprocess-spring-boot-starter
-
 
